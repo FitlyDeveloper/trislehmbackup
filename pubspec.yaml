@@ -1,0 +1,35 @@
+name: fitness_app
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  device_preview: ^1.1.0
+  confetti: ^0.7.0
+  firebase_core: ^3.12.1
+  firebase_auth: ^5.5.1
+  # Firebase dependencies are removed for web compatibility
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:                    # Only ONE flutter: section should exist
+  uses-material-design: true
+  assets:
+    - assets/images/ 
+    - assets/fonts/
+    - assets/images/turtle.png
+    - assets/images/rabbit2.png
+    - assets/images/eagle.png
+    - assets/images/circle.png
+    - assets/images/protein.png
+    - assets/images/fat.png
+    - assets/images/carbs.png
