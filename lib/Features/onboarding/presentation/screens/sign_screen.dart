@@ -696,34 +696,41 @@ class _SignScreenState extends State<SignScreen> {
                                     const SizedBox(height: 8),
 
                                     // Update the Already have an account text to be clickable
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SignInScreen(),
-                                          ),
-                                        );
-                                      },
-                                      child: RichText(
-                                        text: TextSpan(
-                                          text: 'Already have an account? ',
-                                          style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 13.6,
-                                            fontFamily: '.SF Pro Display',
-                                          ),
-                                          children: const [
-                                            TextSpan(
-                                              text: 'Login',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 13.6,
-                                                fontWeight: FontWeight.w600,
+                                    Container(
+                                      margin: const EdgeInsets.only(bottom: 24),
+                                      constraints:
+                                          const BoxConstraints(maxHeight: 30),
+                                      child: Center(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SignInScreen(),
                                               ),
+                                            );
+                                          },
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: 'Already have an account? ',
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 13.6,
+                                                fontFamily: '.SF Pro Display',
+                                              ),
+                                              children: const [
+                                                TextSpan(
+                                                  text: 'Login',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 13.6,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
                                       ),
                                     ),
