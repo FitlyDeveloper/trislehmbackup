@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class IntroBoxScreen extends StatelessWidget {
   const IntroBoxScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [

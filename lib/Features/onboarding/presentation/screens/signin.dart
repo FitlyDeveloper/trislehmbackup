@@ -5,6 +5,7 @@ import 'package:fitness_app/Features/onboarding/presentation/screens/box_screen.
 import 'package:fitness_app/Features/onboarding/presentation/screens/sign_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/forgot_password_screen.dart';
 import 'package:fitness_app/services/auth_service.dart';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -56,7 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [

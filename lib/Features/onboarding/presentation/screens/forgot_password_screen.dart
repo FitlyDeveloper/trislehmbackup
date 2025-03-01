@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fitness_app/services/auth_service.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/sign_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/reset.dart';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -76,7 +77,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [

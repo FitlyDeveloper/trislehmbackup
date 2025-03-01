@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/questions/gender_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/box_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/sign_screen.dart';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -23,7 +24,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
       body: RawKeyboardListener(
         focusNode: FocusNode(),
         autofocus: true,
@@ -111,7 +112,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(
                             24,
-                            MediaQuery.of(context).size.height * 0.03,
+                            MediaQuery.of(context).size.height * 0.03 -
+                                (pageIndex == 0 ? 8 : 0),
                             24,
                             MediaQuery.of(context).size.height * 0.04,
                           ),
@@ -127,7 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                             ? 'Track All Your Workouts\nin One Place'
                                             : pageIndex == 4
                                                 ? 'Track Friends &\nShare Your Journey'
-                                                : 'Achieving Your Dream Physique\nMade Easy',
+                                                : 'Achieving Your Dream Body\nMade Easy',
                                 style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.w700,

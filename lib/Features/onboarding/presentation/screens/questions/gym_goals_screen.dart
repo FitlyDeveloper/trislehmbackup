@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fitness_app/Features/onboarding/presentation/widgets/onboarding_header.dart';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class GymGoalsScreen extends StatefulWidget {
   const GymGoalsScreen({super.key});
@@ -13,16 +14,16 @@ class _GymGoalsScreenState extends State<GymGoalsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 60),  // Safe area top padding
+            const SizedBox(height: 60), // Safe area top padding
             OnboardingHeader(
-              progress: 2 / 7,  // Adjust based on actual progress
+              progress: 2 / 7, // Adjust based on actual progress
               onBack: () => Navigator.pop(context),
             ),
             const Text(
@@ -68,11 +69,14 @@ class _GymGoalsScreenState extends State<GymGoalsScreen> {
             Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.0689,
-              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.0374),
+              margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.0374),
               child: TextButton(
-                onPressed: selectedGoal != null ? () {
-                  // Navigate to next screen
-                } : null,
+                onPressed: selectedGoal != null
+                    ? () {
+                        // Navigate to next screen
+                      }
+                    : null,
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.black,
                   shape: RoundedRectangleBorder(
@@ -98,7 +102,7 @@ class _GymGoalsScreenState extends State<GymGoalsScreen> {
 
   Widget _buildGoalOption(String title, String subtitle, IconData icon) {
     final isSelected = selectedGoal == title;
-    
+
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -137,7 +141,9 @@ class _GymGoalsScreenState extends State<GymGoalsScreen> {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
-                      color: isSelected ? Colors.white.withOpacity(0.7) : Colors.grey[600],
+                      color: isSelected
+                          ? Colors.white.withOpacity(0.7)
+                          : Colors.grey[600],
                       fontFamily: '.SF Pro Display',
                     ),
                   ),
@@ -149,4 +155,4 @@ class _GymGoalsScreenState extends State<GymGoalsScreen> {
       ),
     );
   }
-} 
+}

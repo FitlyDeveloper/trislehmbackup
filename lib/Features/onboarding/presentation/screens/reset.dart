@@ -4,6 +4,7 @@ import 'package:fitness_app/Features/onboarding/presentation/screens/signin.dart
 import 'package:fitness_app/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/sign_screen.dart';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class ResetScreen extends StatefulWidget {
   final String email;
@@ -99,7 +100,7 @@ class _ResetScreenState extends State<ResetScreen> {
     // Check if we're using the mock service
     final bool isTestMode = AuthServiceFactory.useMockAuth;
 
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [

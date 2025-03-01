@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/next_intro_screen_2.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/next_intro_screen_4.dart';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class NextIntroScreen extends StatefulWidget {
   const NextIntroScreen({super.key});
@@ -14,7 +15,7 @@ class _NextIntroScreenState extends State<NextIntroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [

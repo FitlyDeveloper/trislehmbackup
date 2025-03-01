@@ -7,6 +7,7 @@ import 'package:fitness_app/Features/onboarding/presentation/screens/signin.dart
 import 'package:fitness_app/Features/onboarding/presentation/screens/gender_selection_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/verification_screen.dart';
 import 'package:fitness_app/services/auth_service.dart';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class SignScreen extends StatefulWidget {
   const SignScreen({super.key});
@@ -174,7 +175,7 @@ class _SignScreenState extends State<SignScreen> {
           selectionColor: Colors.grey.withOpacity(0.3),
         ),
       ),
-      child: Scaffold(
+      child: ResponsiveScaffold(
         backgroundColor: Colors.white,
         body: Stack(
           children: [
@@ -789,50 +790,53 @@ class _SignScreenState extends State<SignScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text.rich(
-                    TextSpan(
-                      text: 'By signing up, you agree to our ',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 10.5,
-                        fontFamily: '.SF Pro Display',
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'By signing up, you agree to our ',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 10.5,
+                          fontFamily: '.SF Pro Display',
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Terms of Service',
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                              fontSize: 10.5,
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' and ',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 10.5,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Privacy Policy',
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                              fontSize: 10.5,
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '.',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 10.5,
+                            ),
+                          ),
+                        ],
                       ),
-                      children: [
-                        TextSpan(
-                          text: 'Terms of Service',
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 10.5,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ' and ',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 10.5,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Privacy Policy',
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 10.5,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                        TextSpan(
-                          text: '.',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 10.5,
-                          ),
-                        ),
-                      ],
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),

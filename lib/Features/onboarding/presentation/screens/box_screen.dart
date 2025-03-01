@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/next_intro_screen.dart';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class BoxScreen extends StatefulWidget {
   const BoxScreen({super.key});
@@ -13,7 +14,7 @@ class _BoxScreenState extends State<BoxScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [

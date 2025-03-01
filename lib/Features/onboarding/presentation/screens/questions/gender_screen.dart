@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:ui';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class GenderScreen extends StatefulWidget {
   const GenderScreen({super.key});
@@ -28,10 +29,7 @@ class _GenderScreenState extends State<GenderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = 1351.0; // FORCE THE SAME HEIGHT AS I SCREEN
-    print('Onboarding screen height: $screenHeight');
-
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Colors.white,
       body: RawKeyboardListener(
         focusNode: FocusNode(),

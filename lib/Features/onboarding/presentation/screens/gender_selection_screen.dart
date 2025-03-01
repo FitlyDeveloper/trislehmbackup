@@ -3,6 +3,7 @@ import 'package:fitness_app/Features/onboarding/presentation/screens/weight_goal
 import 'package:fitness_app/Features/onboarding/presentation/screens/speed_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/comfort_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/calculation_screen.dart';
+import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class GenderSelectionScreen extends StatefulWidget {
   final bool isMetric;
@@ -32,7 +33,7 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -222,7 +223,11 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
             dreamWeight: widget.initialWeight,
             isGaining: false,
             speedValue: 0,
-            gender: selectedIndex == 0 ? 'Male' : selectedIndex == 1 ? 'Female' : 'Other',
+            gender: selectedIndex == 0
+                ? 'Male'
+                : selectedIndex == 1
+                    ? 'Female'
+                    : 'Other',
             heightInCm: widget.heightInCm,
             birthDate: widget.birthDate,
             gymGoal: widget.gymGoal ?? 'Maintain',
@@ -238,7 +243,11 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
             isMetric: widget.isMetric,
             initialWeight: widget.initialWeight,
             selectedGoal: selectedGoal,
-            gender: selectedIndex == 0 ? 'Male' : selectedIndex == 1 ? 'Female' : 'Other',
+            gender: selectedIndex == 0
+                ? 'Male'
+                : selectedIndex == 1
+                    ? 'Female'
+                    : 'Other',
             heightInCm: widget.heightInCm,
             birthDate: widget.birthDate,
             gymGoal: widget.gymGoal,
