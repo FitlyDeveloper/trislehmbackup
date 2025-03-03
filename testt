@@ -9,6 +9,12 @@ please workk
 gitttttttttt
 ggg
 
+TO UPDATE PROJECT RUN THESE:
+
 git add --all
 git commit -m "Update entire project with responsive scaffold implementation"
 git push origin master
+
+OR YOU COULD TRY:
+
+git push origin main

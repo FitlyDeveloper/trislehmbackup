@@ -6,6 +6,7 @@ import 'package:fitness_app/Features/onboarding/presentation/screens/sign_screen
 import 'package:fitness_app/Features/onboarding/presentation/screens/forgot_password_screen.dart';
 import 'package:fitness_app/services/auth_service.dart';
 import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
+import 'package:fitness_app/core/utils/device_size_adapter.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -53,6 +54,21 @@ class _SignInScreenState extends State<SignInScreen> {
         });
       }
     }
+  }
+
+  // Create a responsive form container widget
+  Widget _buildResponsiveFormContainer({required Widget child}) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          width: double.infinity,
+          constraints: BoxConstraints(
+            maxWidth: DeviceSizeAdapter.getScaledWidth(context, 342),
+          ),
+          child: child,
+        );
+      },
+    );
   }
 
   @override
@@ -128,12 +144,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     color: Colors.grey[600],
                   ),
                 ),
-                const SizedBox(height: 80),
-                const SizedBox(height: 50),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.13),
 
-                // Form Section
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                // Form Section - Using responsive container
+                _buildResponsiveFormContainer(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -181,7 +195,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(
+                          height:
+                              DeviceSizeAdapter.getScaledHeight(context, 16)),
 
                       // Password input
                       Stack(
@@ -249,7 +265,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(
+                          height:
+                              DeviceSizeAdapter.getScaledHeight(context, 8)),
                       Align(
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
@@ -277,46 +295,42 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
 
-                SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.285 - 6),
+                Spacer(),
 
                 // Don't have an account text
-                Transform.translate(
-                  offset: const Offset(0, 19),
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignScreen(),
-                          ),
-                        );
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          text: "Don't have an account? ",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13.6,
-                            fontFamily: '.SF Pro Display',
-                          ),
-                          children: const [
-                            TextSpan(
-                              text: 'Sign Up',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 13.6,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignScreen(),
                         ),
+                      );
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Don't have an account? ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.6,
+                          fontFamily: '.SF Pro Display',
+                        ),
+                        children: const [
+                          TextSpan(
+                            text: 'Sign Up',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 13.6,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 45),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               ],
             ),
           ),
