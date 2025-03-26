@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
 import 'dart:math' as math;
 import 'package:fitness_app/Features/onboarding/presentation/screens/paying_screen.dart';
-import 'package:confetti/confetti.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/sign_screen.dart';
 
 class ReadyScreen extends StatefulWidget {
@@ -31,7 +30,6 @@ class _ReadyScreenState extends State<ReadyScreen> {
   late final double maxWeight;
   double _dragAccumulator = 0;
   String? selectedGoal;
-  late ConfettiController _confettiController;
   final GlobalKey _yesButtonKey = GlobalKey();
 
   @override
@@ -46,35 +44,11 @@ class _ReadyScreenState extends State<ReadyScreen> {
       minWeight = 0;
       maxWeight = 700;
     }
-    _confettiController = ConfettiController();
   }
 
   @override
   void dispose() {
-    _confettiController.dispose();
     super.dispose();
-  }
-
-  // Premium brand colors
-  final List<Color> confettiColors = [
-    const Color(0xFFF5B000), // Gold
-    const Color(0xFF7C3AED), // Purple
-    const Color(0xFF06B6D4), // Cyan
-    const Color(0xFFF5B000).withOpacity(0.7), // Soft gold
-    const Color(0xFF7C3AED).withOpacity(0.7), // Soft purple
-    const Color(0xFF06B6D4).withOpacity(0.7), // Soft cyan
-  ];
-
-  // Get button position for confetti origin
-  Offset _getConfettiOrigin() {
-    final RenderBox? renderBox =
-        _yesButtonKey.currentContext?.findRenderObject() as RenderBox?;
-    if (renderBox == null) return Offset.zero;
-    final position = renderBox.localToGlobal(Offset.zero);
-    return Offset(
-      position.dx + renderBox.size.width / 2,
-      position.dy + renderBox.size.height / 2,
-    );
   }
 
   @override
@@ -153,7 +127,7 @@ class _ReadyScreenState extends State<ReadyScreen> {
                             letterSpacing: -0.5,
                           ),
                         ),
-                        const SizedBox(height: 205),
+                        const SizedBox(height: 145),
                         Center(
                           child: Column(
                             children: [
@@ -213,47 +187,14 @@ class _ReadyScreenState extends State<ReadyScreen> {
                     );
                   },
                   child: const Text(
-                    'Next',
+                    'Continue',
                     style: TextStyle(
                       fontSize: 17,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontFamily: '.SF Pro Display',
                       color: Colors.white,
                     ),
                   ),
-                ),
-              ),
-            ),
-
-            // Confetti layer
-            Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height,
-                child: ConfettiWidget(
-                  confettiController: _confettiController,
-                  blastDirection: -math.pi / 2,
-                  particleDrag: 0.02,
-                  emissionFrequency: 0.02,
-                  numberOfParticles: 200,
-                  gravity: 0.2,
-                  maxBlastForce: 100,
-                  minBlastForce: 80,
-                  shouldLoop: false,
-                  displayTarget: false,
-                  minimumSize: const Size(20, 20),
-                  maximumSize: const Size(30, 30),
-                  colors: const [
-                    Colors.green,
-                    Colors.blue,
-                    Colors.pink,
-                    Colors.orange,
-                    Colors.purple,
-                    Colors.red,
-                    Colors.indigo,
-                    Colors.amber,
-                  ],
                 ),
               ),
             ),
@@ -308,7 +249,7 @@ class _ReadyScreenState extends State<ReadyScreen> {
             text,
             style: TextStyle(
               fontSize: 17,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               color: isSelected ? Colors.white : Colors.black,
               fontFamily: '.SF Pro Display',
             ),
@@ -321,11 +262,6 @@ class _ReadyScreenState extends State<ReadyScreen> {
   void _handleYesButtonPress() {
     setState(() {
       selectedGoal = 'Yes, Lets go!';
-    });
-
-    _confettiController.stop();
-    Future.delayed(const Duration(milliseconds: 50), () {
-      _confettiController.play();
     });
   }
 }

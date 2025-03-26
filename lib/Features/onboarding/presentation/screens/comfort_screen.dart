@@ -51,23 +51,24 @@ class _ComfortScreenState extends State<ComfortScreen> {
     }
 
     // Calculate weight difference (X)
-    double weightDiff = (widget.dreamWeight - widget.initialWeight).abs().toDouble();
+    double weightDiff =
+        (widget.dreamWeight - widget.initialWeight).abs().toDouble();
     weightDifferenceText = '$weightDiff ${widget.isMetric ? 'kg' : 'lb'}';
-    
+
     // Handle time frame text
     if (widget.isMaintaining) {
       timeFrameText = 'Maintenance';
     } else {
       // Calculate weeks (C = X/Y) - Use speed value directly as it's already in correct decimal
       double weeks = weightDiff / widget.speedValue;
-      
+
       // Format the time frame text based on number of weeks
       if (weeks <= 4) {
         timeFrameText = '${weeks.round()} weeks';
       } else {
         // Convert weeks to months
         double months = weeks / 4;
-        
+
         if (months >= 60) {
           timeFrameText = '60+ months';
         } else {
@@ -170,7 +171,8 @@ class _ComfortScreenState extends State<ComfortScreen> {
                                         style: const TextStyle(
                                             color: Color(0xFF4D4DE2)),
                                       ),
-                                      const TextSpan(text: ' weight\nfeel effortless'),
+                                      const TextSpan(
+                                          text: ' weight\nfeel effortless'),
                                     ] else ...[
                                       const TextSpan(text: 'Fitly makes '),
                                       widget.isGaining
@@ -187,7 +189,8 @@ class _ComfortScreenState extends State<ComfortScreen> {
                                         style: const TextStyle(
                                             color: Color(0xFF4D4DE2)),
                                       ),
-                                      const TextSpan(text: '\nfeel effortless!'),
+                                      const TextSpan(
+                                          text: '\nfeel effortless!'),
                                     ],
                                   ],
                                 ),
@@ -254,10 +257,10 @@ class _ComfortScreenState extends State<ComfortScreen> {
                     );
                   },
                   child: const Text(
-                    'Next',
+                    'Continue',
                     style: TextStyle(
                       fontSize: 17,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontFamily: '.SF Pro Display',
                       color: Colors.white,
                     ),

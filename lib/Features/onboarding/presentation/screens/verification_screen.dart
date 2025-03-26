@@ -5,6 +5,7 @@ import 'package:fitness_app/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/sign_screen.dart';
 import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
+import 'package:fitness_app/Features/onboarding/presentation/screens/questions/gender_screen.dart';
 
 class VerificationScreen extends StatefulWidget {
   final String email;
@@ -169,7 +170,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     // Check if we're using the mock service
     final bool isTestMode = AuthServiceFactory.useMockAuth;
 
-    return ResponsiveScaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -189,35 +190,17 @@ class _VerificationScreenState extends State<VerificationScreen> {
             ),
           ),
 
-          // Test mode indicator
-          if (isTestMode)
-            Positioned(
-              top: 40,
-              right: 16,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.orange.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Text(
-                  'TEST MODE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-
-          SafeArea(
+          // Header content (back arrow and progress bar) - Updated to match gender_screen.dart
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header with back button and progress bar
+                SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 16, right: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     children: [
                       IconButton(
@@ -229,26 +212,26 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             builder: (context) => const SignScreen(),
                           ),
                         ),
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: const LinearProgressIndicator(
-                          value: 2 / 13,
-                          minHeight: 2,
-                          backgroundColor: Color(0xFFE5E5EA),
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.black),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 40),
+                          child: LinearProgressIndicator(
+                            value: 2 / 13,
+                            minHeight: 2,
+                            backgroundColor: const Color(0xFFE5E5EA),
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                                Colors.black),
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-
-                // Title and subtitle
+                const SizedBox(height: 21.2),
                 Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24, top: 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -256,144 +239,139 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         'Verification',
                         style: TextStyle(
                           fontSize: 34,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w700,
+                          height: 1.21,
                           fontFamily: '.SF Pro Display',
+                          letterSpacing: -0.5,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      const Text(
+                      const SizedBox(height: 12),
+                      Text(
                         'Check your email and verify your account.',
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w400,
+                          height: 1.3,
                           fontFamily: '.SF Pro Display',
-                          color: Color(0xFF666666),
+                          color: Colors.grey[600],
                         ),
                       ),
                     ],
                   ),
                 ),
+              ],
+            ),
+          ),
 
-                // Expanded area with verification card
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Center(
-                      child: Transform.translate(
-                        offset: const Offset(0, -60),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          margin: const EdgeInsets.symmetric(vertical: 24),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 24),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(24),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.08),
-                                spreadRadius: 0,
-                                blurRadius: 12,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text(
-                                "We've sent a verification link to:",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: '.SF Pro Display',
-                                  color: Color(0xFF666666),
-                                ),
-                              ),
-                              const SizedBox(height: 5.4),
-                              Text(
-                                widget.email,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: '.SF Pro Display',
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Image.asset(
-                                'assets/images/email.png',
-                                width: 70,
-                                height: 70,
-                                fit: BoxFit.contain,
-                              ),
-                              const SizedBox(height: 20),
-                              const Text(
-                                "Didn't get the email?",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: '.SF Pro Display',
-                                  color: Color(0xFF666666),
-                                ),
-                              ),
-                              const SizedBox(height: 5.4),
-                              TextButton(
-                                onPressed: _resendCountdown == 0
-                                    ? _resendVerificationEmail
-                                    : null,
-                                style: ButtonStyle(
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.zero),
-                                  minimumSize:
-                                      MaterialStateProperty.all(Size.zero),
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  splashFactory: NoSplash.splashFactory,
-                                  overlayColor: MaterialStateProperty.all(
-                                      Colors.transparent),
-                                  foregroundColor:
-                                      MaterialStateProperty.resolveWith<Color>(
-                                          (states) {
-                                    return _resendCountdown == 0
-                                        ? Colors.black
-                                        : const Color(0xFF666666);
-                                  }),
-                                ),
-                                child: _isChecking
-                                    ? const SizedBox(
-                                        height: 15,
-                                        width: 15,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: Colors.black,
-                                        ),
-                                      )
-                                    : Text(
-                                        _resendCountdown > 0
-                                            ? "Resend in ${_resendCountdown}s"
-                                            : "Resend",
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: '.SF Pro Display',
-                                          color: _resendCountdown == 0
-                                              ? Colors.black
-                                              : const Color(0xFF666666),
-                                        ),
-                                      ),
-                              ),
-                            ],
-                          ),
-                        ),
+          // Verification content - rest of the screen
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.35,
+            left: 24,
+            right: 24,
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.08),
+                      spreadRadius: 0,
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      "We've sent a verification link to:",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: '.SF Pro Display',
+                        color: Color(0xFF666666),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 5.4),
+                    Text(
+                      widget.email,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: '.SF Pro Display',
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Image.asset(
+                      'assets/images/email.png',
+                      width: 70,
+                      height: 70,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Didn't get the email?",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: '.SF Pro Display',
+                        color: Color(0xFF666666),
+                      ),
+                    ),
+                    const SizedBox(height: 5.4),
+                    TextButton(
+                      onPressed: _resendCountdown == 0
+                          ? _resendVerificationEmail
+                          : null,
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(EdgeInsets.zero),
+                        minimumSize: MaterialStateProperty.all(Size.zero),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        splashFactory: NoSplash.splashFactory,
+                        overlayColor:
+                            MaterialStateProperty.all(Colors.transparent),
+                        foregroundColor:
+                            MaterialStateProperty.resolveWith<Color>((states) {
+                          return _resendCountdown == 0
+                              ? Colors.black
+                              : const Color(0xFF666666);
+                        }),
+                      ),
+                      child: _isChecking
+                          ? const SizedBox(
+                              height: 15,
+                              width: 15,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.black,
+                              ),
+                            )
+                          : Text(
+                              _resendCountdown > 0
+                                  ? "Resend in ${_resendCountdown}s"
+                                  : "Resend",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: '.SF Pro Display',
+                                color: _resendCountdown == 0
+                                    ? Colors.black
+                                    : const Color(0xFF666666),
+                              ),
+                            ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
 
@@ -453,7 +431,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   'Verify',
                   style: TextStyle(
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: '.SF Pro Display',
                     color: Colors.white,
                   ),
@@ -498,14 +476,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
         });
 
         if (isVerified) {
-          // Email is verified, proceed to sign in
+          // Email is verified, proceed to gender screen
           if (mounted) {
-            print('Email verified, proceeding to sign in screen');
-            // Navigate to sign in screen
+            print('Email verified, proceeding to gender screen');
+            // Navigate to gender screen
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const SignInScreen(),
+                builder: (context) => const GenderScreen(),
               ),
             );
           }
@@ -518,12 +496,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
             final mockAuth = _auth as MockAuthService;
             await mockAuth.forceVerifyEmail(widget.email);
 
-            // Navigate to sign in screen
+            // Navigate to gender screen
             if (mounted) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const SignInScreen(),
+                  builder: (context) => const GenderScreen(),
                 ),
               );
             }
@@ -546,17 +524,17 @@ class _VerificationScreenState extends State<VerificationScreen> {
           final mockAuth = _auth as MockAuthService;
           await mockAuth.forceVerifyEmail(widget.email);
 
-          // Navigate to sign in screen
+          // Navigate to gender screen
           if (mounted) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const SignInScreen(),
+                builder: (context) => const GenderScreen(),
               ),
             );
           }
         } else {
-          print('No user found during verification check');
+          // No user and not in test mode, show error
           if (mounted) {
             setState(() {
               _showErrorMessage = true;
@@ -565,7 +543,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         }
       }
     } catch (e) {
-      print('Error during verification check: $e');
+      print('Error during verification: ${e.toString()}');
       if (mounted) {
         setState(() {
           _showErrorMessage = true;

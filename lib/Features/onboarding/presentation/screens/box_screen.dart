@@ -155,7 +155,7 @@ class _BoxScreenState extends State<BoxScreen> {
                       }
                     : null,
                 child: Text(
-                  'Next',
+                  'Continue',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,

@@ -184,15 +184,17 @@ class _WeightHeightCopyScreenState extends State<WeightHeightCopyScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: const EdgeInsets.only(top: 14, left: 16, right: 24),
                   child: Row(
                     children: [
                       IconButton(
                         icon: const Icon(Icons.arrow_back,
                             color: Colors.black, size: 24),
                         onPressed: () => Navigator.pop(context),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -310,10 +312,10 @@ class _WeightHeightCopyScreenState extends State<WeightHeightCopyScreen> {
                   );
                 },
                 child: const Text(
-                  'Next',
+                  'Continue',
                   style: TextStyle(
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: '.SF Pro Display',
                     color: Colors.white,
                   ),

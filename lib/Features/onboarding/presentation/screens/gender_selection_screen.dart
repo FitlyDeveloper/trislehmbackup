@@ -33,7 +33,7 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveScaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -166,10 +166,10 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
               child: TextButton(
                 onPressed: _handleNavigation,
                 child: const Text(
-                  'Next',
+                  'Continue',
                   style: TextStyle(
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: '.SF Pro Display',
                     color: Colors.white,
                   ),
@@ -202,7 +202,7 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
             text,
             style: TextStyle(
               fontSize: 17,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               color: isSelected ? Colors.white : Colors.black,
               fontFamily: '.SF Pro Display',
             ),

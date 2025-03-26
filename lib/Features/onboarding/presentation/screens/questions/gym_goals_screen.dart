@@ -84,10 +84,10 @@ class _GymGoalsScreenState extends State<GymGoalsScreen> {
                   ),
                 ),
                 child: const Text(
-                  'Next',
+                  'Continue',
                   style: TextStyle(
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: '.SF Pro Display',
                     color: Colors.white,
                   ),
@@ -131,7 +131,7 @@ class _GymGoalsScreenState extends State<GymGoalsScreen> {
                     title,
                     style: TextStyle(
                       fontSize: 17,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       color: isSelected ? Colors.white : Colors.black,
                       fontFamily: '.SF Pro Display',
                     ),

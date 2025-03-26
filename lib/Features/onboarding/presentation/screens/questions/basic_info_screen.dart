@@ -11,7 +11,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
   final _formKey = GlobalKey<FormState>();
   int? age;
   String? gender;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +55,8 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                   color: Colors.grey[100],
                   borderRadius: BorderRadius.circular(12),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: TextFormField(
                   decoration: const InputDecoration(
                     border: InputBorder.none,
@@ -76,9 +77,11 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                 height: 56,
                 margin: const EdgeInsets.only(bottom: 16),
                 child: ElevatedButton(
-                  onPressed: age != null ? () {
-                    // Navigate to next question
-                  } : null,
+                  onPressed: age != null
+                      ? () {
+                          // Navigate to next question
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
@@ -91,7 +94,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                     'Continue',
                     style: TextStyle(
                       fontSize: 17,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontFamily: '.SF Pro Display',
                     ),
                   ),
@@ -103,4 +106,4 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
       ),
     );
   }
-} 
+}

@@ -412,10 +412,10 @@ class _SpeedScreenState extends State<SpeedScreen> {
                     );
                   },
                   child: const Text(
-                    'Next',
+                    'Continue',
                     style: TextStyle(
                       fontSize: 17,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontFamily: '.SF Pro Display',
                       color: Colors.white,
                     ),

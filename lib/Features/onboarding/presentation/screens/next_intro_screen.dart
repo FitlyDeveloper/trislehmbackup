@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/next_intro_screen_2.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/next_intro_screen_4.dart';
-import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 
 class NextIntroScreen extends StatefulWidget {
   const NextIntroScreen({super.key});
@@ -15,7 +14,7 @@ class _NextIntroScreenState extends State<NextIntroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveScaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -40,13 +39,13 @@ class _NextIntroScreenState extends State<NextIntroScreen> {
             top: 0,
             left: 0,
             right: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-                  Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
                     children: [
                       IconButton(
                         icon: const Icon(Icons.arrow_back,
@@ -68,34 +67,38 @@ class _NextIntroScreenState extends State<NextIntroScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 21.2),
-                  // Title
-                  const Text(
-                    'How often can you go to the gym?',
-                    style: TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w700,
-                      height: 1.21,
-                      fontFamily: '.SF Pro Display',
-                      letterSpacing: -0.5,
-                    ),
+                ),
+                const SizedBox(height: 21.2),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'How often can you go to the gym?',
+                        style: TextStyle(
+                          fontSize: 34,
+                          fontWeight: FontWeight.w700,
+                          height: 1.21,
+                          fontFamily: '.SF Pro Display',
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'This helps us create the best gym workout plan for you.',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                          height: 1.3,
+                          fontFamily: '.SF Pro Display',
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                      height:
-                          MediaQuery.of(context).size.height * 0.01), // 1% gap
-                  // Subtitle
-                  Text(
-                    'This helps us create the best gym workout plan for you.',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      height: 1.3,
-                      fontFamily: '.SF Pro Display',
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
 
@@ -200,10 +203,10 @@ class _NextIntroScreenState extends State<NextIntroScreen> {
                   }
                 },
                 child: const Text(
-                  'Next',
+                  'Continue',
                   style: TextStyle(
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: '.SF Pro Display',
                     color: Colors.white,
                   ),

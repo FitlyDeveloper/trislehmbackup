@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
+import 'package:fitness_app/Features/codia/codia_page.dart';
 
 class PayingScreen extends StatelessWidget {
   const PayingScreen({super.key});
@@ -26,7 +27,7 @@ class PayingScreen extends StatelessWidget {
             ),
           ),
 
-          // Header content
+          // Header content (back arrow and progress bar)
           Positioned(
             top: 0,
             left: 0,
@@ -49,7 +50,7 @@ class PayingScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 40),
                           child: const LinearProgressIndicator(
-                            value: 13 / 13,
+                            value: 7 / 7,
                             minHeight: 2,
                             backgroundColor: Color(0xFFE5E5EA),
                             valueColor:
@@ -135,7 +136,7 @@ class PayingScreen extends StatelessWidget {
             left: 0,
             right: 0,
             bottom: 0,
-            height: MediaQuery.of(context).size.height * 0.193,
+            height: MediaQuery.of(context).size.height * 0.148887,
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -193,7 +194,13 @@ class PayingScreen extends StatelessWidget {
               ),
               child: TextButton(
                 onPressed: () {
-                  // Handle navigation to next screen
+                  // Navigate to CodiaPage
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CodiaPage(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Try for \$0.00',

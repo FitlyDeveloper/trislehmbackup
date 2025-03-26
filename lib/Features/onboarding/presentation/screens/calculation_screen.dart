@@ -37,8 +37,10 @@ class CalculationScreen extends StatelessWidget {
     print('Speed: $speedValue ${isMetric ? 'kg' : 'lbs'}/week');
 
     // Convert measurements if using imperial units
-    final weightInKg = isMetric ? initialWeight : (initialWeight * 0.453592).round();
-    final dreamWeightInKg = isMetric ? dreamWeight : (dreamWeight * 0.453592).round();
+    final weightInKg =
+        isMetric ? initialWeight : (initialWeight * 0.453592).round();
+    final dreamWeightInKg =
+        isMetric ? dreamWeight : (dreamWeight * 0.453592).round();
     final heightConverted = heightInCm;
 
     print('Converted values:');
@@ -58,17 +60,19 @@ class CalculationScreen extends StatelessWidget {
     // Calculate daily deficit/surplus based on unit system
     if (isMetric) {
       // Metric: Use 7700 kcal per kg
-      dailyDeficit = (speedValue * 7700 / 7).round(); // Weekly kg to daily calories
+      dailyDeficit =
+          (speedValue * 7700 / 7).round(); // Weekly kg to daily calories
     } else {
       // Imperial: Use 3500 kcal per lb, no need to convert speed since it's already in lbs
-      dailyDeficit = (speedValue * 3500 / 7).round(); // Weekly lbs to daily calories
+      dailyDeficit =
+          (speedValue * 3500 / 7).round(); // Weekly lbs to daily calories
     }
 
     print('Daily deficit calculated: $dailyDeficit');
 
     // Calculate final target calories
     calculatedCalories = isGaining ? tdee + dailyDeficit : tdee - dailyDeficit;
-    
+
     // Update the macro calculations to consider gym goals
     final proteinMultiplier = getProteinMultiplier(gymGoal);
     final proteinCalories = calculatedCalories * proteinMultiplier;
@@ -124,7 +128,8 @@ class CalculationScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.black, size: 24),
+                        icon: const Icon(Icons.arrow_back,
+                            color: Colors.black, size: 24),
                         onPressed: () => Navigator.pop(context),
                       ),
                       const SizedBox(width: 16),
@@ -135,7 +140,8 @@ class CalculationScreen extends StatelessWidget {
                             value: 11 / 13,
                             minHeight: 2,
                             backgroundColor: Color(0xFFE5E5EA),
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.black),
                           ),
                         ),
                       ),
@@ -243,10 +249,10 @@ class CalculationScreen extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  '-$tdee',  // Show maintenance/TDEE as deficit since no food eaten yet
+                                  '-$tdee', // Show maintenance/TDEE as deficit since no food eaten yet
                                   style: const TextStyle(
                                     fontSize: 15.1,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     fontFamily: '.SF Pro Display',
                                   ),
                                 ),
@@ -271,10 +277,10 @@ class CalculationScreen extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: const [
                                 Text(
-                                  '0',  // Start at 0 burned calories
+                                  '0', // Start at 0 burned calories
                                   style: TextStyle(
                                     fontSize: 15.1,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     fontFamily: '.SF Pro Display',
                                   ),
                                 ),
@@ -356,7 +362,8 @@ class CalculationScreen extends StatelessWidget {
                             child: OverflowBox(
                               maxHeight: double.infinity,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
                                     children: [
@@ -374,7 +381,7 @@ class CalculationScreen extends StatelessWidget {
                                           '0 / $proteinGrams g',
                                           style: const TextStyle(
                                             fontSize: 12,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             fontFamily: '.SF Pro Display',
                                           ),
                                         ),
@@ -398,7 +405,7 @@ class CalculationScreen extends StatelessWidget {
                                           '0 / $fatGrams g',
                                           style: const TextStyle(
                                             fontSize: 12,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             fontFamily: '.SF Pro Display',
                                           ),
                                         ),
@@ -422,7 +429,7 @@ class CalculationScreen extends StatelessWidget {
                                           '0 / $carbGrams g',
                                           style: const TextStyle(
                                             fontSize: 12,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             fontFamily: '.SF Pro Display',
                                           ),
                                         ),
@@ -493,10 +500,10 @@ class CalculationScreen extends StatelessWidget {
                   );
                 },
                 child: const Text(
-                  'Next',
+                  'Continue',
                   style: TextStyle(
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: '.SF Pro Display',
                     color: Colors.white,
                   ),
@@ -661,4 +668,4 @@ class CalorieArcPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-} 
+}

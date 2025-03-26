@@ -17,26 +17,33 @@ class GoalsComparisonScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.black, size: 24),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 40),
-                        child: const LinearProgressIndicator(
-                          value: 6 / 7,
-                          minHeight: 2,
-                          backgroundColor: Color(0xFFE5E5EA),
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                Padding(
+                  padding: const EdgeInsets.only(top: 14, left: 16, right: 24),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back,
+                            color: Colors.black, size: 24),
+                        onPressed: () => Navigator.pop(context),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 40),
+                          child: const LinearProgressIndicator(
+                            value: 6 / 7,
+                            minHeight: 2,
+                            backgroundColor: Color(0xFFE5E5EA),
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.black),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -173,10 +180,10 @@ class GoalsComparisonScreen extends StatelessWidget {
                   // Navigate to next screen
                 },
                 child: const Text(
-                  'Next',
+                  'Continue',
                   style: TextStyle(
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: '.SF Pro Display',
                     color: Colors.white,
                   ),
@@ -188,4 +195,4 @@ class GoalsComparisonScreen extends StatelessWidget {
       ),
     );
   }
-} 
+}

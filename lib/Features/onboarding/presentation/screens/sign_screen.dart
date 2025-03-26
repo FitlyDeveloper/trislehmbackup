@@ -7,6 +7,7 @@ import 'package:fitness_app/Features/onboarding/presentation/screens/box_screen.
 import 'package:fitness_app/Features/onboarding/presentation/screens/signin.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/gender_selection_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/verification_screen.dart';
+import 'package:fitness_app/Features/onboarding/presentation/screens/forgot_password_screen.dart';
 import 'package:fitness_app/services/auth_service.dart';
 import 'package:fitness_app/core/widgets/responsive_scaffold.dart';
 import 'package:fitness_app/core/utils/device_size_adapter.dart';
@@ -47,6 +48,11 @@ class _SignScreenState extends State<SignScreen> {
       // Check if password is valid (at least 6 characters)
       final password = _passwordController.text;
       _isValidPassword = password.length >= 6;
+
+      // Force rebuild to update password strength indicator
+      if (password.isNotEmpty) {
+        // This will trigger a rebuild with the new password
+      }
     });
   }
 
@@ -192,7 +198,7 @@ class _SignScreenState extends State<SignScreen> {
           selectionColor: Colors.grey.withOpacity(0.3),
         ),
       ),
-      child: ResponsiveScaffold(
+      child: Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
           children: [
@@ -218,7 +224,8 @@ class _SignScreenState extends State<SignScreen> {
                 child: Column(
                   children: [
                     // Space for header
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.36),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.322),
 
                     // Form elements container
                     _buildResponsiveFormContainer(
@@ -370,6 +377,17 @@ class _SignScreenState extends State<SignScreen> {
                               ],
                             ),
 
+                            // Forgot Password - replaced with invisible placeholder to maintain layout
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: SizedBox(
+                                height:
+                                    24, // Same height as the previous text component
+                                width: double.infinity,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+
                             // OR divider
                             Padding(
                               padding:
@@ -406,37 +424,40 @@ class _SignScreenState extends State<SignScreen> {
                             const SizedBox(height: 26),
 
                             // Already have an account text
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignInScreen(),
-                                  ),
-                                );
-                              },
-                              child: RichText(
-                                text: TextSpan(
-                                  text: "Already have an account? ",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 13.6,
-                                    fontFamily: '.SF Pro Display',
-                                  ),
-                                  children: const [
-                                    TextSpan(
-                                      text: 'Login',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 13.6,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                            Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignInScreen(),
                                     ),
-                                  ],
+                                  );
+                                },
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: "Already have an account? ",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 13.6,
+                                      fontFamily: '.SF Pro Display',
+                                    ),
+                                    children: const [
+                                      TextSpan(
+                                        text: 'Login',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 13.6,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                            // Reduced space at the bottom to make "Already have an account" closer to the white box
+                            // SizedBox to create space below the text
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.05),
@@ -487,7 +508,7 @@ class _SignScreenState extends State<SignScreen> {
                           'Sign Up',
                           style: TextStyle(
                             fontSize: 17,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             fontFamily: '.SF Pro Display',
                             color: Colors.white,
                           ),
@@ -547,54 +568,38 @@ class _SignScreenState extends State<SignScreen> {
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Row(
                       children: [
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const OnboardingScreen(),
-                                ),
-                              );
-                            },
-                            customBorder: const CircleBorder(),
-                            splashColor: Colors.grey.withOpacity(0.3),
-                            highlightColor: Colors.transparent,
-                            splashFactory: InkRipple.splashFactory,
-                            radius: 20,
-                            child: Ink(
-                              width: 48,
-                              height: 48,
-                              child: const Icon(
-                                Icons.arrow_back,
-                                color: Colors.black,
-                                size: 24,
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back,
+                              color: Colors.black, size: 24),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const OnboardingScreen(),
                               ),
-                            ),
-                          ),
+                            );
+                          },
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 16),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.only(right: 40),
-                            child: const LinearProgressIndicator(
+                            child: LinearProgressIndicator(
                               value: 1 / 13,
                               minHeight: 2,
-                              backgroundColor: Color(0xFFE5E5EA),
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.black),
+                              backgroundColor: const Color(0xFFE5E5EA),
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Colors.black),
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 21.2),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Column(
@@ -635,31 +640,28 @@ class _SignScreenState extends State<SignScreen> {
 
   Widget _buildPasswordStrengthIndicator() {
     final password = _passwordController.text;
-    final hasUppercase = password.contains(RegExp(r'[A-Z]'));
-    final hasLowercase = password.contains(RegExp(r'[a-z]'));
-    final hasDigits = password.contains(RegExp(r'[0-9]'));
-    final hasSpecialCharacters =
-        password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-    final hasMinLength = password.length >= 8;
+    final length = password.length;
 
-    int strength = 0;
-    if (hasUppercase) strength++;
-    if (hasLowercase) strength++;
-    if (hasDigits) strength++;
-    if (hasSpecialCharacters) strength++;
-    if (hasMinLength) strength++;
+    // Determine strength based only on length
+    String strengthText;
+    Color strengthColor;
 
-    final strengthText = strength < 2
-        ? 'Weak'
-        : strength < 4
-            ? 'Medium'
-            : 'Strong';
-
-    final strengthColor = strength < 2
-        ? Colors.red
-        : strength < 4
-            ? Colors.orange
-            : Colors.green;
+    if (length < 6) {
+      strengthText = 'Too short';
+      strengthColor = const Color(0xFFFF3B30); // #FF3B30
+    } else if (length >= 12) {
+      strengthText = 'Very strong';
+      strengthColor = const Color(0xFF00522E); // #00522E
+    } else if (length >= 10) {
+      strengthText = 'Strong';
+      strengthColor = const Color(0xFF4CAF50); // #4CAF50
+    } else if (length >= 8) {
+      strengthText = 'Okay';
+      strengthColor = const Color(0xFFFFD60A); // #FFD60A
+    } else {
+      strengthText = 'Weak';
+      strengthColor = const Color(0xFFFF9500); // #FF9500
+    }
 
     return Row(
       children: [
@@ -735,7 +737,7 @@ class _SignScreenState extends State<SignScreen> {
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 13.5,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontFamily: '.SF Pro Display',
                     ),
                   ),

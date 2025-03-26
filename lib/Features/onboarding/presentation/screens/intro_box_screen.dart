@@ -57,7 +57,7 @@ class IntroBoxScreen extends StatelessWidget {
                   // Handle next button press
                 },
                 child: const Text(
-                  'Next',
+                  'Continue',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
@@ -72,4 +72,4 @@ class IntroBoxScreen extends StatelessWidget {
       ),
     );
   }
-} 
+}

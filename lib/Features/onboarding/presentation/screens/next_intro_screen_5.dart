@@ -171,10 +171,10 @@ class _NextIntroScreen5State extends State<NextIntroScreen5> {
               child: TextButton(
                 onPressed: _handleNavigation,
                 child: const Text(
-                  'Next',
+                  'Continue',
                   style: TextStyle(
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: '.SF Pro Display',
                     color: Colors.white,
                   ),
@@ -191,11 +191,10 @@ class _NextIntroScreen5State extends State<NextIntroScreen5> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WeightGoalCopyScreen(
+        builder: (context) => GenderSelectionScreen(
           isMetric: widget.isMetric,
           initialWeight: widget.selectedWeight,
-          selectedGoal: 'Lose weight',
-          gender: selectedIndex == 0
+          selectedGender: selectedIndex == 0
               ? 'Male'
               : selectedIndex == 1
                   ? 'Female'
