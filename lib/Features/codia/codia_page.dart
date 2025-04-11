@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'Memories.dart';
 import '../../NewScreens/ChooseWorkout.dart';
+import '../../NewScreens/FoodCardOpen.dart';
 
 class CodiaPage extends StatefulWidget {
   CodiaPage({super.key});

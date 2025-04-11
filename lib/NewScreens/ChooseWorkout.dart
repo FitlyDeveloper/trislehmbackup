@@ -9,17 +9,18 @@ class ChooseWorkout extends StatefulWidget {
 }
 
 class _ChooseWorkoutState extends State<ChooseWorkout> {
-  int _selectedIndex = 3; // Workout tab selected by default
+  int _selectedIndex = 3;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background4.jpg'),
-            fit: BoxFit.cover,
+            image: AssetImage('assets/images/background3.jpg'),
+            fit: BoxFit.fill,
           ),
         ),
         child: SafeArea(
@@ -28,34 +29,28 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
               children: [
                 // Header with title
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 29)
-                      .copyWith(top: 16, bottom: 8.5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Workout title
-                      Text(
-                        'Workout',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'SF Pro Display',
-                          color: Colors.black,
-                          decoration: TextDecoration.none,
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(top: 20, bottom: 8),
+                  child: Text(
+                    'Workout',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'SF Pro Display',
+                      color: Colors.black,
+                    ),
                   ),
                 ),
 
-                // Slim gray divider line
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 29),
-                  height: 1,
-                  color: Color(0xFFBDBDBD),
+                // Divider line
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  child: Divider(
+                    height: 1,
+                    thickness: 0.5,
+                    color: Color(0xFFDFDFDF),
+                  ),
                 ),
 
-                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(
@@ -69,32 +64,37 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
                           color: Color(0xFF303030),
                         ),
                       ),
-                      const SizedBox(height: 20),
+
+                      const SizedBox(height: 16),
+                      
                       // Weight Lifting Option
                       _buildWorkoutCard(
                         'Weight Lifting',
                         'Build strength with machines or free weights',
-                        Icons.fitness_center_outlined,
+                        'assets/images/dumbbell.png',
                         () {},
                       ),
                       const SizedBox(height: 16),
+                      
                       // Running Option
                       _buildWorkoutCard(
                         'Running',
                         'Track your runs, jogs, sprints etc.',
-                        Icons.directions_run_outlined,
+                        'assets/images/Shoe.png',
                         () {},
                       ),
                       const SizedBox(height: 16),
+                      
                       // More Option
                       _buildWorkoutCard(
                         'More',
                         'Create custom exercises',
-                        Icons.add_circle_outline_rounded,
+                        'assets/images/add.png',
                         () {},
                       ),
-                      // Add bottom padding to avoid collision with nav bar
-                      const SizedBox(height: 80),
+                      
+                      // Bottom padding
+                      const SizedBox(height: 24),
                     ],
                   ),
                 ),
@@ -103,7 +103,6 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
           ),
         ),
       ),
-      // Fixed bottom navigation bar
       bottomNavigationBar: Container(
         height: 90,
         decoration: BoxDecoration(
@@ -139,21 +138,9 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
   Widget _buildWorkoutCard(
     String title,
     String subtitle,
-    IconData icon,
+    String iconPath,
     VoidCallback onTap,
   ) {
-    // Helper function to get the correct image asset
-    String getIconPath() {
-      switch (title) {
-        case 'Weight Lifting':
-          return 'assets/images/dumbbell.png';
-        case 'More':
-          return 'assets/images/add.png';
-        default:
-          return ''; // For running we'll keep the material icon for now
-      }
-    }
-
     return Container(
       height: 88,
       decoration: BoxDecoration(
@@ -181,23 +168,17 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
                 Container(
                   width: 48,
                   height: 48,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF5F5F5),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF9F8FE),
                     shape: BoxShape.circle,
                   ),
                   child: Center(
-                    child: title == 'Running' 
-                      ? Icon(
-                          icon,
-                          size: 24,
-                          color: Colors.black87,
-                        )
-                      : Image.asset(
-                          getIconPath(),
-                          width: 24,
-                          height: 24,
-                          color: Colors.black87,
-                        ),
+                    child: Image.asset(
+                      iconPath,
+                      width: title == 'More' ? 28 : 32,
+                      height: title == 'More' ? 28 : 32,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -209,7 +190,7 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
                       Text(
                         title,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 17,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
                         ),
@@ -225,11 +206,6 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
                     ],
                   ),
                 ),
-                const Icon(
-                  Icons.chevron_right,
-                  color: Colors.black54,
-                  size: 24,
-                ),
               ],
             ),
           ),
@@ -241,7 +217,7 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
   Widget _buildNavItem(String label, String iconPath, bool isSelected, int index) {
     return GestureDetector(
       onTap: () {
-        if (index == 0) { // Home icon clicked
+        if (index == 0) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => CodiaPage()),
