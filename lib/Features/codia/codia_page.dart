@@ -444,38 +444,46 @@ class _CodiaPageState extends State<CodiaPage> {
                     children: [
                       // Snap Meal button
                       Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/camera.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 14),
-                              Text(
-                                'Snap Meal',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  decoration: TextDecoration.none,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const FoodCardOpen()),
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/camera.png',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                SizedBox(width: 14),
+                                Text(
+                                  'Snap Meal',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -542,157 +550,169 @@ class _CodiaPageState extends State<CodiaPage> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 29, vertical: 8),
-                  child: Container(
-                    padding: EdgeInsets.only(right: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const FoodCardOpen()),
+                        );
+                      },
                       borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
+                      child: Container(
+                        padding: EdgeInsets.only(right: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        // Food image placeholder
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Container(
-                            width:
-                                92, // Changed from 104 to 92 to make a perfect square
-                            height: 92,
-                            color: Color(0xFFDADADA),
-                            child: Center(
-                              child: Image.asset(
-                                'assets/images/meal1.png',
-                                width: 28,
-                                height: 28,
+                        child: Row(
+                          children: [
+                            // Food image placeholder
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                width:
+                                    92, // Changed from 104 to 92 to make a perfect square
+                                height: 92,
+                                color: Color(0xFFDADADA),
+                                child: Center(
+                                  child: Image.asset(
+                                    'assets/images/meal1.png',
+                                    width: 28,
+                                    height: 28,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
 
-                        SizedBox(width: 12),
+                            SizedBox(width: 12),
 
-                        // Food details
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical:
-                                    8), // Reduced from 12 to make card smaller
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                            // Food details
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical:
+                                        8), // Reduced from 12 to make card smaller
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Carrot with Meat...',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 6.6, vertical: 2.2),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFF2F2F2),
-                                        borderRadius: BorderRadius.circular(11),
-                                      ),
-                                      child: Text(
-                                        '12:07',
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.normal,
-                                          color: Colors.black,
-                                          decoration: TextDecoration.none,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Carrot with Meat...',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            decoration: TextDecoration.none,
+                                          ),
                                         ),
-                                      ),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 6.6, vertical: 2.2),
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFF2F2F2),
+                                            borderRadius: BorderRadius.circular(11),
+                                          ),
+                                          child: Text(
+                                            '12:07',
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black,
+                                              decoration: TextDecoration.none,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 7), // Increased by 15% from 6
+
+                                    // Calories
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/energy.png',
+                                          width: 18.83,
+                                          height: 18.83,
+                                        ),
+                                        SizedBox(width: 7.7),
+                                        Text(
+                                          '500 calories',
+                                          style: TextStyle(
+                                            fontSize: 15.4,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 7), // Increased by 15% from 6
+
+                                    // Macros
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/steak.png',
+                                          width: 14, // Increased by 6% from 13.2
+                                          height: 14, // Increased by 6% from 13.2
+                                        ),
+                                        SizedBox(width: 7.7),
+                                        Text('15g',
+                                            style: TextStyle(
+                                                fontSize:
+                                                    14, // Increased by 6% from 13.2
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.black,
+                                                decoration: TextDecoration.none)),
+                                        SizedBox(width: 24.2),
+                                        Image.asset(
+                                          'assets/images/avocado.png',
+                                          width: 14, // Increased by 6% from 13.2
+                                          height: 14, // Increased by 6% from 13.2
+                                        ),
+                                        SizedBox(width: 7.7),
+                                        Text('10g',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.black,
+                                                decoration: TextDecoration.none)),
+                                        SizedBox(width: 24.2),
+                                        Image.asset(
+                                          'assets/images/carbicon.png',
+                                          width: 14, // Increased by 6% from 13.2
+                                          height: 14, // Increased by 6% from 13.2
+                                        ),
+                                        SizedBox(width: 7.7),
+                                        Text('101g',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.black,
+                                                decoration: TextDecoration.none)),
+                                      ],
                                     ),
                                   ],
                                 ),
-
-                                SizedBox(height: 7), // Increased by 15% from 6
-
-                                // Calories
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/energy.png',
-                                      width: 18.83,
-                                      height: 18.83,
-                                    ),
-                                    SizedBox(width: 7.7),
-                                    Text(
-                                      '500 calories',
-                                      style: TextStyle(
-                                        fontSize: 15.4,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                SizedBox(height: 7), // Increased by 15% from 6
-
-                                // Macros
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/steak.png',
-                                      width: 14, // Increased by 6% from 13.2
-                                      height: 14, // Increased by 6% from 13.2
-                                    ),
-                                    SizedBox(width: 7.7),
-                                    Text('15g',
-                                        style: TextStyle(
-                                            fontSize:
-                                                14, // Increased by 6% from 13.2
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black,
-                                            decoration: TextDecoration.none)),
-                                    SizedBox(width: 24.2),
-                                    Image.asset(
-                                      'assets/images/avocado.png',
-                                      width: 14, // Increased by 6% from 13.2
-                                      height: 14, // Increased by 6% from 13.2
-                                    ),
-                                    SizedBox(width: 7.7),
-                                    Text('10g',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black,
-                                            decoration: TextDecoration.none)),
-                                    SizedBox(width: 24.2),
-                                    Image.asset(
-                                      'assets/images/carbicon.png',
-                                      width: 14, // Increased by 6% from 13.2
-                                      height: 14, // Increased by 6% from 13.2
-                                    ),
-                                    SizedBox(width: 7.7),
-                                    Text('101g',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black,
-                                            decoration: TextDecoration.none)),
-                                  ],
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
@@ -701,156 +721,168 @@ class _CodiaPageState extends State<CodiaPage> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 29, vertical: 8),
-                  child: Container(
-                    padding: EdgeInsets.only(right: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const FoodCardOpen()),
+                        );
+                      },
                       borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
+                      child: Container(
+                        padding: EdgeInsets.only(right: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        // Food image placeholder
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Container(
-                            width:
-                                92, // Changed from 104 to 92 to make a perfect square
-                            height: 92,
-                            color: Color(0xFFDADADA),
-                            child: Center(
-                              child: Image.asset(
-                                'assets/images/meal1.png',
-                                width: 28,
-                                height: 28,
+                        child: Row(
+                          children: [
+                            // Food image placeholder
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                width:
+                                    92, // Changed from 104 to 92 to make a perfect square
+                                height: 92,
+                                color: Color(0xFFDADADA),
+                                child: Center(
+                                  child: Image.asset(
+                                    'assets/images/meal1.png',
+                                    width: 28,
+                                    height: 28,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
 
-                        SizedBox(width: 12),
+                            SizedBox(width: 12),
 
-                        // Food details
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical:
-                                    8), // Reduced from 12 to make card smaller
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                            // Food details
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical:
+                                        8), // Reduced from 12 to make card smaller
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Cake with Berries',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 6.6, vertical: 2.2),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFF2F2F2),
-                                        borderRadius: BorderRadius.circular(11),
-                                      ),
-                                      child: Text(
-                                        '09:15',
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.normal,
-                                          color: Colors.black,
-                                          decoration: TextDecoration.none,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Cake with Berries',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            decoration: TextDecoration.none,
+                                          ),
                                         ),
-                                      ),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 6.6, vertical: 2.2),
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFF2F2F2),
+                                            borderRadius: BorderRadius.circular(11),
+                                          ),
+                                          child: Text(
+                                            '09:15',
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black,
+                                              decoration: TextDecoration.none,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 7), // Increased by 15% from 6
+
+                                    // Calories
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/energy.png',
+                                          width: 18.83,
+                                          height: 18.83,
+                                        ),
+                                        SizedBox(width: 7.7),
+                                        Text(
+                                          '370 calories',
+                                          style: TextStyle(
+                                            fontSize: 15.4,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 7), // Increased by 15% from 6
+
+                                    // Macros
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/steak.png',
+                                          width: 14, // Increased by 6% from 13.2
+                                          height: 14, // Increased by 6% from 13.2
+                                        ),
+                                        SizedBox(width: 7.7),
+                                        Text('15g',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.black,
+                                                decoration: TextDecoration.none)),
+                                        SizedBox(width: 24.2),
+                                        Image.asset(
+                                          'assets/images/avocado.png',
+                                          width: 14, // Increased by 6% from 13.2
+                                          height: 14, // Increased by 6% from 13.2
+                                        ),
+                                        SizedBox(width: 7.7),
+                                        Text('10g',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.black,
+                                                decoration: TextDecoration.none)),
+                                        SizedBox(width: 24.2),
+                                        Image.asset(
+                                          'assets/images/carbicon.png',
+                                          width: 14, // Increased by 6% from 13.2
+                                          height: 14, // Increased by 6% from 13.2
+                                        ),
+                                        SizedBox(width: 7.7),
+                                        Text('101g',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.black,
+                                                decoration: TextDecoration.none)),
+                                      ],
                                     ),
                                   ],
                                 ),
-
-                                SizedBox(height: 7), // Increased by 15% from 6
-
-                                // Calories
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/energy.png',
-                                      width: 18.83,
-                                      height: 18.83,
-                                    ),
-                                    SizedBox(width: 7.7),
-                                    Text(
-                                      '370 calories',
-                                      style: TextStyle(
-                                        fontSize: 15.4,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                SizedBox(height: 7), // Increased by 15% from 6
-
-                                // Macros
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/steak.png',
-                                      width: 14, // Increased by 6% from 13.2
-                                      height: 14, // Increased by 6% from 13.2
-                                    ),
-                                    SizedBox(width: 7.7),
-                                    Text('15g',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black,
-                                            decoration: TextDecoration.none)),
-                                    SizedBox(width: 24.2),
-                                    Image.asset(
-                                      'assets/images/avocado.png',
-                                      width: 14, // Increased by 6% from 13.2
-                                      height: 14, // Increased by 6% from 13.2
-                                    ),
-                                    SizedBox(width: 7.7),
-                                    Text('10g',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black,
-                                            decoration: TextDecoration.none)),
-                                    SizedBox(width: 24.2),
-                                    Image.asset(
-                                      'assets/images/carbicon.png',
-                                      width: 14, // Increased by 6% from 13.2
-                                      height: 14, // Increased by 6% from 13.2
-                                    ),
-                                    SizedBox(width: 7.7),
-                                    Text('101g',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black,
-                                            decoration: TextDecoration.none)),
-                                  ],
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),

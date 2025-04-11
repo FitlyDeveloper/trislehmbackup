@@ -19,7 +19,7 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background3.jpg'),
+            image: AssetImage('assets/images/background4.jpg'),
             fit: BoxFit.fill,
           ),
         ),
@@ -43,11 +43,10 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
 
                 // Divider line
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  child: Divider(
-                    height: 1,
-                    thickness: 0.5,
-                    color: Color(0xFFDFDFDF),
+                  padding: const EdgeInsets.symmetric(horizontal: 29),
+                  child: Container(
+                    height: 0.7,
+                    color: Color(0xFFEEEEEE),
                   ),
                 ),
 
@@ -63,6 +62,13 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF303030),
                         ),
+                      ),
+
+                      // Slim gray divider line
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 29),
+                        height: 1,
+                        color: Color(0xFFBDBDBD),
                       ),
 
                       const SizedBox(height: 16),
