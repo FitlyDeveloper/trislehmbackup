@@ -1165,27 +1165,16 @@ class _SnapFoodState extends State<SnapFood> {
 
   // Get image provider based on available sources
   ImageProvider _getImageProvider() {
+    // For web or if web path is available
     if (_webImagePath != null) {
-      // Web platform with path
       return NetworkImage(_webImagePath!);
-    } else if (kIsWeb && _webImageBytes != null) {
-      // Web platform with bytes
+    }
+    // For web with bytes
+    else if (_webImageBytes != null) {
       return MemoryImage(_webImageBytes!);
-    } else if (!kIsWeb && _imageFile != null) {
-      try {
-        // Use different approaches based on platform
-        if (kIsWeb) {
-          return const AssetImage('assets/images/placeholder.png');
-        } else {
-          return FileImage(
-              File(_imageFile!.path)); // Use FileImage for non-web platforms
-        }
-      } catch (e) {
-        print("Error loading image: $e");
-        return const AssetImage('assets/images/placeholder.png');
-      }
-    } else {
-      // Fallback to a placeholder
+    }
+    // Default placeholder for all other cases
+    else {
       return const AssetImage('assets/images/placeholder.png');
     }
   }
