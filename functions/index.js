@@ -1,19 +1,44 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const { analyzeFoodImageImpl, parseResult, pingFunction } = require('./simple');
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+admin.initializeApp();
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+// Analyze food image function
+exports.analyzeFoodImage = functions.https.onCall(async (data, context) => {
+  try {
+    // Validate input
+    if (!data.image) {
+      throw new functions.https.HttpsError("invalid-argument", "Image is required");
+    }
+    
+    // Get API key
+    const apiKey = functions.config().openai?.api_key;
+    if (!apiKey) {
+      throw new functions.https.HttpsError("failed-precondition", "API key not configured");
+    }
+    
+    // Process image
+    try {
+      const content = await analyzeFoodImageImpl(data.image, apiKey);
+      return parseResult(content);
+    } catch (error) {
+      throw new functions.https.HttpsError("internal", `Analysis failed: ${error.message}`);
+    }
+  } catch (error) {
+    console.error("Function error:", error);
+    throw error instanceof functions.https.HttpsError ? 
+      error : 
+      new functions.https.HttpsError("internal", error.message);
+  }
+}); 
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+// Simple ping function to check if system is available
+exports.ping = functions.https.onCall(async (data, context) => {
+  try {
+    return await pingFunction();
+  } catch (error) {
+    console.error("Ping error:", error);
+    throw new functions.https.HttpsError("internal", error.message);
+  }
+}); 

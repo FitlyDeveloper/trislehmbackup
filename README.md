@@ -1,90 +1,94 @@
-# Fitly - Fitness & Nutrition Tracking App
+# Fitness App with Food Analysis API
 
-Fitly is a comprehensive fitness and nutrition tracking application built with Flutter. It helps users track their calorie intake, monitor macronutrients, and achieve their fitness goals.
+A secure implementation of a food analysis API for use with the Fitness App. This repository contains the API server code that handles secure processing of food images using OpenAI's Vision API.
 
-## Features
+## Overview
 
-- **User Onboarding**: Personalized onboarding flow collecting user information (gender, weight, height, etc.)
-- **Calorie Tracking**: Track daily calorie intake and deficit
-- **Macronutrient Monitoring**: Monitor protein, fat, and carbohydrate consumption
-- **Meal Logging**: Log meals with detailed nutritional information
-- **Activity Feed**: View recent food entries and activities
-- **Snap Meal**: Quickly log meals using your camera
-- **Coach Access**: Connect with fitness coaches for personalized guidance
-
-## Screenshots
-
-![App Screenshot](screenshots/home_screen.png)
-
-## Project Structure
-
-The app follows a feature-based architecture:
-
-- **Features/**
-  - **auth/**: Authentication-related screens and services
-  - **codia/**: Main app screens including home screen
-  - **home/**: Home screen components
-  - **onboarding/**: Onboarding flow screens and components
-- **core/**: Core utilities and widgets
-- **services/**: Backend services including authentication
-- **utils/**: Utility functions and helpers
+This is a clean implementation for deploying to Render.com, which avoids the limitations of Firebase Functions while maintaining security of API keys.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Flutter SDK (2.10.0 or higher)
-- Dart SDK (2.16.0 or higher)
-- Android Studio / VS Code with Flutter extensions
+- Node.js v18 or higher
+- An OpenAI API key with access to GPT-4 Vision (gpt-4o model)
 
-### Installation
+### Local Development
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/fitly.git
-   ```
-
-2. Navigate to the project directory:
-   ```
-   cd fitly
-   ```
-
+1. Clone this repository
+2. Navigate to the api-server directory
 3. Install dependencies:
    ```
-   flutter pub get
+   npm install
+   ```
+4. Create a `.env` file from the example:
+   ```
+   cp .env.example .env
+   ```
+5. Add your OpenAI API key to the `.env` file
+6. Start the development server:
+   ```
+   npm run dev
    ```
 
-4. Run the app:
-   ```
-   flutter run
-   ```
+The server will start on port 3000 by default.
 
-## Development Notes
+## Deployment
 
-### Navigation Flow
+This server is designed to be deployed to Render.com:
 
-The app implements a multi-screen onboarding flow:
-1. Sign In/Sign Up
-2. Email Verification
-3. Gender Selection
-4. Weight & Height Input
-5. Goal Setting
-6. Main App (Home Screen)
+1. Push this repository to GitHub
+2. Create a new Web Service on Render.com
+3. Connect your GitHub repository
+4. Configure the build settings:
+   - Build Command: `cd api-server && npm install`
+   - Start Command: `cd api-server && npm start`
+5. Add the necessary environment variables:
+   - `OPENAI_API_KEY`: Your OpenAI API key
+   - `ALLOWED_ORIGINS`: Comma-separated list of allowed origins
+   - `RATE_LIMIT`: Request limits per minute (default: 30)
+   - `DEBUG_MODE`: Enable debug logging (true/false)
 
-### UI Components
+## API Usage
 
-- Uses Material Design with custom styling
-- Implements responsive layouts for different screen sizes
-- Custom navigation bar with increased height (90px) for better usability
-- Fixed positioning of navigation elements for consistent UX
+### Analyze Food Image
+
+**Endpoint:** `POST /api/analyze-food`
+
+**Request Body:**
+```json
+{
+  "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAA..."
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "meal": [
+      {
+        "dish": "Chicken Salad",
+        "calories": 350,
+        "macronutrients": {
+          "protein": 25,
+          "carbohydrates": 15,
+          "fat": 20
+        },
+        "ingredients": ["chicken", "lettuce", "tomato", "avocado"]
+      }
+    ]
+  }
+}
+```
+
+## Security Considerations
+
+- The OpenAI API key is stored securely on the server and never exposed to clients
+- CORS protection ensures only authorized origins can access the API
+- Rate limiting prevents abuse of the API
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Flutter team for the amazing framework
-- Material Design for UI inspiration
-- All contributors who have helped shape this project
-"# Lehm40" 
+MIT
