@@ -8,32 +8,36 @@ import 'web_impl.dart' if (dart.library.io) 'web_impl_stub.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart'
     if (dart.library.html) 'web_image_compress_stub.dart';
 
-// Common interface for both platforms
+/// Compress an image to a smaller size
+/// For web, this uses canvas resize
+/// For mobile, this uses flutter_image_compress
 Future<Uint8List> compressImage(
   Uint8List imageBytes, {
-  int quality = 80,
+  int quality = 85,
   int targetWidth = 800,
+  int? targetHeight,
 }) async {
-  if (kIsWeb) {
-    // Use web-specific compression
-    try {
-      return await resizeWebImage(imageBytes, targetWidth);
-    } catch (e) {
-      print("Web compression error: $e");
-      return imageBytes;
-    }
-  } else {
-    // Use mobile-specific compression
-    try {
+  if (imageBytes.isEmpty) {
+    return Uint8List(0);
+  }
+
+  try {
+    if (kIsWeb) {
+      // Web implementation
+      return await resizeWebImage(imageBytes, targetWidth,
+          targetHeight: targetHeight, quality: quality);
+    } else {
+      // Mobile implementation
       return await FlutterImageCompress.compressWithList(
         imageBytes,
         quality: quality,
         minWidth: targetWidth,
-        minHeight: targetWidth,
+        minHeight: targetHeight ?? 0,
       );
-    } catch (e) {
-      print("Mobile compression error: $e");
-      return imageBytes;
     }
+  } catch (e) {
+    print('Error compressing image: $e');
+    // Return original bytes as fallback
+    return imageBytes;
   }
 }

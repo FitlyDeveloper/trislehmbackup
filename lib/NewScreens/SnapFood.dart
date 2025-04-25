@@ -157,7 +157,7 @@ class _SnapFoodState extends State<SnapFood> {
       if (kIsWeb && _webImageBytes != null) {
         // For web, use the bytes we already have
         imageBytes = _webImageBytes!;
-        print("Using web image bytes (${imageBytes.length} bytes)");
+        print("Using web image bytes: ${imageBytes.length} bytes");
       } else {
         // Read as bytes from the file
         imageBytes = await image.readAsBytes();
@@ -743,19 +743,23 @@ class _SnapFoodState extends State<SnapFood> {
       Uint8List? imageBytes;
       if (_webImageBytes != null) {
         imageBytes = _webImageBytes;
+        print("Using web image bytes: ${imageBytes!.length} bytes");
       } else if (_webImagePath != null && kIsWeb) {
         try {
           imageBytes = await getWebImageBytes(_webImagePath!);
+          print("Got web image bytes from path: ${imageBytes!.length} bytes");
         } catch (e) {
           print("Error getting web image bytes: $e");
         }
-      } else if (_imageFile != null && !kIsWeb) {
+      } /* else if (_imageFile != null && !kIsWeb) {
         try {
-          imageBytes = await _imageFile!.readAsBytes();
+          // Commented out for now to avoid type errors
+          // imageBytes = await _imageFile!.readAsBytes();
+          print("Reading file bytes not supported in this environment");
         } catch (e) {
           print("Error reading image file bytes: $e");
         }
-      }
+      } */
 
       // Convert image to base64 for storage
       String? base64Image;
@@ -1159,9 +1163,9 @@ class _SnapFoodState extends State<SnapFood> {
     );
   }
 
-  // Helper method to get the appropriate image provider based on platform
+  // Get image provider based on available sources
   ImageProvider _getImageProvider() {
-    if (kIsWeb && _webImagePath != null) {
+    if (_webImagePath != null) {
       // Web platform with path
       return NetworkImage(_webImagePath!);
     } else if (kIsWeb && _webImageBytes != null) {
@@ -1173,7 +1177,8 @@ class _SnapFoodState extends State<SnapFood> {
         if (kIsWeb) {
           return const AssetImage('assets/images/placeholder.png');
         } else {
-          return MemoryImage(Uint8List.fromList(_imageFile!.readAsBytesSync()));
+          return FileImage(
+              File(_imageFile!.path)); // Use FileImage for non-web platforms
         }
       } catch (e) {
         print("Error loading image: $e");

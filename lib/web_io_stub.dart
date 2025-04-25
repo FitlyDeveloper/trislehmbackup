@@ -1,53 +1,63 @@
-// Stub implementation for dart:io functionality on web platforms
 import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
 
-// File stub implementation for web
+// Stub implementations of dart:io classes for web
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+
 class File {
   final String path;
 
   File(this.path);
 
-  Future<Uint8List> readAsBytes() async {
-    throw UnsupportedError('File I/O is not supported on web platform');
-  }
-
-  Future<String> readAsString() async {
-    throw UnsupportedError('File I/O is not supported on web platform');
-  }
-
-  bool existsSync() {
-    throw UnsupportedError('File I/O is not supported on web platform');
-  }
+  // Stub methods
+  Future<bool> exists() async => false;
+  bool existsSync() => false;
+  Future<Uint8List> readAsBytes() async => Uint8List(0);
+  Uint8List readAsBytesSync() => Uint8List(0);
+  Stream<List<int>> openRead() => Stream.empty();
 }
 
-// Platform stub for web
 class Platform {
   static bool get isAndroid => false;
   static bool get isIOS => false;
   static bool get isWindows => false;
   static bool get isMacOS => false;
   static bool get isLinux => false;
-  static bool get isWeb => kIsWeb;
 }
 
-// Directory stub implementation for web
 class Directory {
   final String path;
 
   Directory(this.path);
 
-  static Directory get systemTemp => Directory('/tmp');
-
-  bool existsSync() {
-    throw UnsupportedError('Directory I/O is not supported on web platform');
-  }
-
-  Future<bool> exists() async {
-    throw UnsupportedError('Directory I/O is not supported on web platform');
-  }
-
-  Future<Directory> create({bool recursive = false}) async {
-    throw UnsupportedError('Directory I/O is not supported on web platform');
-  }
+  // Stub methods
+  Future<bool> exists() async => false;
+  Future<Directory> create({bool recursive = false}) async => this;
 }
+
+class FileSystemEntity {
+  static Future<bool> isDirectory(String path) async => false;
+  static Future<bool> isFile(String path) async => false;
+}
+
+class FileSystemException implements Exception {
+  final String message;
+  final String path;
+  final OSError? osError;
+
+  FileSystemException([this.message = "", this.path = "", this.osError]);
+
+  @override
+  String toString() => "FileSystemException: $message, path = '$path'";
+}
+
+class OSError {
+  final String message;
+  final int errorCode;
+
+  OSError([this.message = "", this.errorCode = 0]);
+
+  @override
+  String toString() => "OSError: $message, errno = $errorCode";
+}
+
+// Add other stub classes as needed

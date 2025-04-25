@@ -1,11 +1,10 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
-/// Custom widget that implements a flippable card with front and back sides
 class FlipCard extends StatefulWidget {
   final Widget frontSide;
   final Widget backSide;
-  final Function onFlip;
+  final VoidCallback onFlip;
 
   const FlipCard({
     Key? key,
@@ -28,13 +27,10 @@ class _FlipCardState extends State<FlipCard>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
       vsync: this,
+      duration: Duration(milliseconds: 500),
     );
-
-    _animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
   }
 
   @override
@@ -49,11 +45,7 @@ class _FlipCardState extends State<FlipCard>
     } else {
       _controller.reverse();
     }
-
-    setState(() {
-      _showFrontSide = !_showFrontSide;
-    });
-
+    _showFrontSide = !_showFrontSide;
     widget.onFlip();
   }
 
@@ -66,7 +58,7 @@ class _FlipCardState extends State<FlipCard>
         builder: (context, child) {
           final angle = _animation.value * pi;
           final transform = Matrix4.identity()
-            ..setEntry(3, 2, 0.001) // Perspective
+            ..setEntry(3, 2, 0.001)
             ..rotateY(angle);
 
           return Transform(

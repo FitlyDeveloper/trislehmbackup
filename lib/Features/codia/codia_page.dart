@@ -1745,7 +1745,7 @@ class _CodiaPageState extends State<CodiaPage> {
                       decoration: TextDecoration.none,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(width: 4),
                   Container(
                     width: 80,
                     height: 8,
@@ -1764,7 +1764,7 @@ class _CodiaPageState extends State<CodiaPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(width: 4),
                   Text(
                     '$currentFat / $fatTarget g',
                     style: TextStyle(
@@ -1788,7 +1788,7 @@ class _CodiaPageState extends State<CodiaPage> {
                       decoration: TextDecoration.none,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(width: 4),
                   Container(
                     width: 80,
                     height: 8,

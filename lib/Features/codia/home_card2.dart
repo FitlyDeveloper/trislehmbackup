@@ -1,181 +1,153 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-/// The back side of the flip card showing activity information
-class HomeCard2 extends StatefulWidget {
+class HomeCard2 extends StatelessWidget {
   const HomeCard2({Key? key}) : super(key: key);
-
-  @override
-  _HomeCard2State createState() => _HomeCard2State();
-}
-
-class _HomeCard2State extends State<HomeCard2> {
-  int _steps = 0;
-  double _distance = 0.0;
-  int _activeMinutes = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadActivityData();
-  }
-
-  /// Load activity data from SharedPreferences
-  Future<void> _loadActivityData() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-
-      setState(() {
-        _steps = prefs.getInt('steps') ?? 0;
-        _distance = prefs.getDouble('distance') ?? 0.0;
-        _activeMinutes = prefs.getInt('active_minutes') ?? 0;
-      });
-    } catch (e) {
-      print('Error loading activity data: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      height: 220,
+      padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
-            offset: Offset(0, 4),
+            offset: Offset(0, 5),
           ),
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Title and flip indicator
+          Text(
+            'Activity Summary',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              decoration: TextDecoration.none,
+            ),
+          ),
+          SizedBox(height: 15),
+
+          // Activity stats
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildActivityStat('Steps', '0', 'assets/images/steps.png'),
+              _buildActivityStat(
+                  'Distance', '0 km', 'assets/images/distance.png'),
+              _buildActivityStat('Calories', '0', 'assets/images/energy.png'),
+            ],
+          ),
+
+          SizedBox(height: 20),
+
+          // Activity progress
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Activity',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              _buildActivityProgress(
+                'Steps',
+                0,
+                10000,
+                Color(0xFFD7C1FF),
               ),
-              Icon(
-                Icons.swap_horiz,
-                color: Colors.grey,
-                size: 24,
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-
-          // Steps row
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/steps.png',
-                width: 30,
-                height: 30,
-              ),
-              SizedBox(width: 15),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Steps',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  Text(
-                    '$_steps',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-
-          // Distance row
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/distance.png',
-                width: 30,
-                height: 30,
-              ),
-              SizedBox(width: 15),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Distance',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  Text(
-                    '${_distance.toStringAsFixed(1)} km',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-
-          // Active minutes row
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/clock.png',
-                width: 30,
-                height: 30,
-              ),
-              SizedBox(width: 15),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Active Minutes',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  Text(
-                    '$_activeMinutes min',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
+              _buildActivityProgress(
+                'Workout',
+                0,
+                60,
+                Color(0xFFFFD8B1),
               ),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildActivityStat(String label, String value, String iconPath) {
+    return Column(
+      children: [
+        Image.asset(
+          iconPath,
+          width: 24,
+          height: 24,
+        ),
+        SizedBox(height: 8),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            decoration: TextDecoration.none,
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey,
+            decoration: TextDecoration.none,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActivityProgress(
+    String label,
+    int current,
+    int target,
+    Color color,
+  ) {
+    final progress = current / target;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+            decoration: TextDecoration.none,
+          ),
+        ),
+        SizedBox(height: 8),
+        Container(
+          width: 140,
+          height: 8,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            color: Color(0xFFEEEEEE),
+          ),
+          child: FractionallySizedBox(
+            widthFactor: progress.clamp(0, 1),
+            alignment: Alignment.centerLeft,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: color,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 4),
+        Text(
+          '$current / $target',
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+            decoration: TextDecoration.none,
+          ),
+        ),
+      ],
     );
   }
 }
