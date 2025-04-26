@@ -11,6 +11,7 @@ import '../../NewScreens/FoodCardOpen.dart';
 import 'package:flutter/gestures.dart';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:grouped_list/grouped_list.dart';
 
 class CodiaPage extends StatefulWidget {
   CodiaPage({super.key});
@@ -793,6 +794,51 @@ class _CodiaPageState extends State<CodiaPage> {
     }
   }
 
+  // Helper method to extract numeric value from a string and convert to int
+  int _extractNumericValueAsInt(dynamic input) {
+    if (input is int) {
+      return input;
+    } else if (input is double) {
+      return input.round();
+    } else if (input is String) {
+      // Try to extract digits from the string, including possible decimal values
+      final match = RegExp(r'(\d+\.?\d*)').firstMatch(input);
+      if (match != null && match.group(1) != null) {
+        // Parse as double first to handle potential decimal values
+        final value = double.tryParse(match.group(1)!) ?? 0.0;
+        // Then round to nearest int
+        return value.round();
+      }
+    }
+    return 0;
+  }
+
+  // Helper method to extract numeric value as string without decimal precision
+  String _extractNumericValue(dynamic input) {
+    if (input is int) {
+      // Return value as is - already an integer
+      return input.toString();
+    } else if (input is double) {
+      // Convert to integer, removing decimals
+      return input.toInt().toString();
+    } else if (input is String) {
+      // Try to extract digits from the string, including decimal values
+      final match = RegExp(r'(\d+\.?\d*)').firstMatch(input);
+      if (match != null && match.group(1) != null) {
+        // Convert to double then integer to remove decimals
+        double value = double.tryParse(match.group(1)!) ?? 0.0;
+        return value.toInt().toString();
+      }
+    }
+    return "0"; // Return string "0" as fallback (without decimal)
+  }
+
+  // Returns the exact integer value without rounding to nearest 5 or 10
+  int _getRawCalorieValue(double calories) {
+    // Just convert to int without rounding to multiples of 5 or 10
+    return calories.toInt();
+  }
+
   // Build default image container for food cards without images
   Widget _buildDefaultImageContainer() {
     return Container(
@@ -826,10 +872,13 @@ class _CodiaPageState extends State<CodiaPage> {
 
     // Get values with fallbacks
     String name = foodCard['name'] ?? 'Unknown Meal';
-    int calories = foodCard['calories'] ?? 0;
-    int protein = foodCard['protein'] ?? 0;
-    int fat = foodCard['fat'] ?? 0;
-    int carbs = foodCard['carbs'] ?? 0;
+
+    // Handle numeric values with decimal precision
+    final String calories = _extractNumericValue(foodCard['calories']);
+    final String protein = _extractNumericValue(foodCard['protein']);
+    final String fat = _extractNumericValue(foodCard['fat']);
+    final String carbs = _extractNumericValue(foodCard['carbs']);
+
     String? base64Image = foodCard['image'];
     List<dynamic> ingredients = foodCard['ingredients'] ?? [];
 
@@ -862,7 +911,7 @@ class _CodiaPageState extends State<CodiaPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const FoodCardOpen(),
+              builder: (context) => FoodCardOpen(),
             ),
           );
         },
@@ -901,7 +950,9 @@ class _CodiaPageState extends State<CodiaPage> {
                         children: [
                           Flexible(
                             child: Text(
-                              name,
+                              name.length > 20
+                                  ? name.substring(0, 20) + '...'
+                                  : name,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 16,
@@ -966,7 +1017,7 @@ class _CodiaPageState extends State<CodiaPage> {
                           ),
                           SizedBox(width: 7.7),
                           Text(
-                            '${protein}g',
+                            '$protein g',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -982,7 +1033,7 @@ class _CodiaPageState extends State<CodiaPage> {
                           ),
                           SizedBox(width: 7.7),
                           Text(
-                            '${fat}g',
+                            '$fat g',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -998,7 +1049,7 @@ class _CodiaPageState extends State<CodiaPage> {
                           ),
                           SizedBox(width: 7.7),
                           Text(
-                            '${carbs}g',
+                            '$carbs g',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -1764,7 +1815,7 @@ class _CodiaPageState extends State<CodiaPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 4),
+                  SizedBox(height: 4),
                   Text(
                     '$currentFat / $fatTarget g',
                     style: TextStyle(

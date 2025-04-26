@@ -141,7 +141,7 @@ class _SnapFoodState extends State<SnapFood> {
     };
   }
 
-  // Modify the _analyzeImage method to use our secure API with fallbacks
+  // Modify the _analyzeImage method to use our secure API
   Future<void> _analyzeImage(XFile? image) async {
     if (_isAnalyzing || image == null) return;
 
@@ -198,50 +198,22 @@ class _SnapFoodState extends State<SnapFood> {
         }
       }
 
-      Map<String, dynamic>? response;
-      bool apiSucceeded = false;
-      String errorMessage = "";
+      print("Calling secure API service");
 
-      // ATTEMPT 1: Try the Render.com API service first
-      try {
-        print("Calling secure API service");
-        response = await FoodAnalyzerApi.analyzeFoodImage(processedBytes)
-            .timeout(const Duration(seconds: 15));
-        print("API call successful!");
-        apiSucceeded = true;
-      } catch (e) {
-        print("Render.com API error: $e");
-        errorMessage = e.toString();
-        // Continue to Firebase fallback
-      }
+      // Use our secure API service via Firebase
+      final response = await FoodAnalyzerApi.analyzeFoodImage(processedBytes);
 
-      // ATTEMPT 2: If Render.com API fails, try a Firebase function fallback
-      if (!apiSucceeded) {
-        try {
-          print("Trying Firebase function fallback");
-          // Use local fallback for testing if Firebase function isn't ready
-          response = await _analyzeImageLocally(processedBytes);
-          print("Firebase fallback successful!");
-        } catch (e) {
-          print("Firebase fallback error: $e");
-          errorMessage += "\nFirebase fallback error: $e";
-        }
-      }
+      print("API call successful!");
+      print('Response: $response');
 
-      // Check if we have a response from either attempt
-      if (response != null) {
-        if (mounted) {
-          setState(() {
-            _isAnalyzing = false;
-            _analysisResult = response;
-          });
+      if (mounted) {
+        setState(() {
+          _isAnalyzing = false;
+          _analysisResult = response;
+        });
 
-          // Display the formatted results
-          _displayAnalysisResults(_analysisResult!);
-        }
-      } else {
-        // Both attempts failed
-        throw Exception("All analysis methods failed: $errorMessage");
+        // Display the formatted results in the terminal
+        _displayAnalysisResults(_analysisResult!);
       }
     } catch (e) {
       print("Error analyzing image: $e");
@@ -249,10 +221,8 @@ class _SnapFoodState extends State<SnapFood> {
         setState(() {
           _isAnalyzing = false;
         });
-
-        // Show an error dialog with more detailed information
-        _showErrorDialog("Analysis Failed",
-            "We couldn't analyze your food image. Please check your internet connection and try again.\n\nTechnical info: ${e.toString().substring(0, math.min(100, e.toString().length))}");
+        _showCustomDialog("Analysis Failed",
+            "Failed to analyze the image. Please try again.");
       }
     }
   }
@@ -1640,38 +1610,59 @@ class _SnapFoodState extends State<SnapFood> {
     );
   }
 
-  // Show a more detailed error dialog
-  void _showErrorDialog(String title, String message) {
+  // Show any error alerts with proper styling
+  void _showErrorAlert(String message) {
     showDialog(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.5),
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: SingleChildScrollView(
-            child: Text(message),
+        return Dialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("OK"),
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 24.0, horizontal: 20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Analysis Error",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  message,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20.0),
+                TextButton(
+                  child: Text(
+                    "OK",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                // Check if API is available and report status
-                FoodAnalyzerApi.checkApiAvailability().then((available) {
-                  _showCustomDialog(
-                      "API Status",
-                      available
-                          ? "API service is online. Please try again."
-                          : "API service is currently unavailable. Please try again later.");
-                });
-              },
-              child: Text("Check API Status"),
-            ),
-          ],
+          ),
         );
       },
     );
