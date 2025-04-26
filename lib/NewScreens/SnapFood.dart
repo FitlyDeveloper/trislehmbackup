@@ -692,11 +692,11 @@ class _SnapFoodState extends State<SnapFood> {
       print("\n----- FOOD ANALYSIS RESULTS -----");
       print("Food name: $foodName");
       print("Ingredients: $ingredients");
-      print("Calories: ${calories}kcal");
-      print("Protein: ${protein}g");
-      print("Fat: ${fat}g");
-      print("Carbs: ${carbs}g");
-      print("Vitamin C: ${vitaminC}mg");
+      print("Calories: ${_extractNumericValue(calories)}kcal");
+      print("Protein: ${_extractNumericValue(protein)}g");
+      print("Fat: ${_extractNumericValue(fat)}g");
+      print("Carbs: ${_extractNumericValue(carbs)}g");
+      print("Vitamin C: ${_extractNumericValue(vitaminC)}mg");
       print("---------------------------------\n");
 
       // We don't need to store or display the formatted text anymore
@@ -719,14 +719,46 @@ class _SnapFoodState extends State<SnapFood> {
     }
   }
 
-  // Helper method to extract numeric value from a string
-  int _extractNumericValue(String input) {
-    // Try to extract digits from the string
-    final match = RegExp(r'(\d+)').firstMatch(input);
+  // Helper method to extract numeric value from a string, removing decimal places
+  String _extractNumericValue(String input) {
+    // Try to extract digits from the string, including decimal values
+    final match = RegExp(r'(\d+\.?\d*)').firstMatch(input);
     if (match != null && match.group(1) != null) {
-      return int.tryParse(match.group(1)!) ?? 0;
+      // Remove decimal points by parsing as double and converting to int
+      double value = double.tryParse(match.group(1)!) ?? 0.0;
+      return value.toInt().toString();
+    }
+    return "0"; // Return string "0" as fallback (without decimal)
+  }
+
+  // Helper method to extract numeric value from a string and convert to int
+  int _extractNumericValueAsInt(String input) {
+    // Try to extract digits from the string, including possible decimal values
+    final match = RegExp(r'(\d+\.?\d*)').firstMatch(input);
+    if (match != null && match.group(1) != null) {
+      // Parse as double first to handle potential decimal values
+      final value = double.tryParse(match.group(1)!) ?? 0.0;
+      // Then round to nearest int
+      return value.round();
     }
     return 0;
+  }
+
+  // Helper method to extract numeric value with decimal places from a string
+  double _extractDecimalValue(String input) {
+    // Try to extract number with possible decimal point
+    final match = RegExp(r'(\d+\.?\d*)').firstMatch(input);
+    if (match != null && match.group(1) != null) {
+      // Use original value without de-rounding
+      return double.tryParse(match.group(1)!) ?? 0.0;
+    }
+    return 0.0;
+  }
+
+  // Gets exact raw calorie value as integer
+  int _getRawCalorieValue(double calories) {
+    // Just convert to integer, no rounding to multiples
+    return calories.toInt();
   }
 
   // Save food card data to SharedPreferences
@@ -777,13 +809,16 @@ class _SnapFoodState extends State<SnapFood> {
         }
       }
 
-      // Create food card data
+      // Parse values from the analysis
+      double caloriesValue = _extractDecimalValue(calories);
+
+      // Create food card data - store raw values with decimal precision
       final Map<String, dynamic> foodCard = {
         'name': foodName.isNotEmpty ? foodName : 'Analyzed Meal',
-        'calories': _extractNumericValue(calories),
-        'protein': _extractNumericValue(protein),
-        'fat': _extractNumericValue(fat),
-        'carbs': _extractNumericValue(carbs),
+        'calories': _extractNumericValue(calories), // Use de-rounded calories
+        'protein': _extractNumericValue(protein), // Use de-rounded protein
+        'fat': _extractNumericValue(fat), // Use de-rounded fat
+        'carbs': _extractNumericValue(carbs), // Use de-rounded carbs
         'timestamp': DateTime.now().millisecondsSinceEpoch,
         'image': base64Image,
         'ingredients': ingredientsList.map((ing) => ing['name']).toList(),

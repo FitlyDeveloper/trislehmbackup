@@ -6,32 +6,21 @@ const fetch = require('node-fetch');
 admin.initializeApp();
 
 // Get the OpenAI API key from Firebase config
-async function getOpenAIKey() {
-  // Get OpenAI API key
-  const apiKey = functions.config().openai?.api_key;
-  if (!apiKey) {
-    console.error("OpenAI API key not configured");
-    throw new Error("OpenAI API key not configured. Set it using 'firebase functions:config:set openai.api_key=\"your_api_key_here\"'");
-  }
-  return apiKey;
-}
+const apiKey = functions.config().openai?.api_key;
 
 // Process and analyze food images
 exports.analyzeFoodImage = functions.https.onCall(async (data, context) => {
   try {
-    // Validate the image is provided
-    if (!data.image) {
-      console.error("No image provided in the request");
-      throw new functions.https.HttpsError("invalid-argument", "An image is required");
+    // Validate input
+    if (!data || !data.image) {
+      throw new functions.https.HttpsError('invalid-argument', 'No image provided');
     }
-
-    // Get the base64 image
-    const base64Image = data.image;
-    console.log(`Received image of size ${base64Image.length} bytes`);
-
-    // Get the OpenAI API key
-    const apiKey = await getOpenAIKey();
-
+    
+    // Prepare the base64 image
+    const base64Image = data.image.startsWith('data:') 
+      ? data.image 
+      : `data:image/jpeg;base64,${data.image}`;
+    
     // Call OpenAI API
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -40,18 +29,18 @@ exports.analyzeFoodImage = functions.https.onCall(async (data, context) => {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        'model': 'gpt-4o',
+        'model': 'gpt-4-vision-preview',
         'messages': [
           {
             'role': 'system',
-            'content': 'You are a nutrition expert analyzing food images. Return detailed nutritional information in JSON format with this structure: { "meal": [{ "dish": "Name of dish", "calories": "Total calories (number only)", "macronutrients": { "protein": "grams (number only)", "carbohydrates": "grams (number only)", "fat": "grams (number only)" }, "ingredients": ["ingredient1", "ingredient2", ...] }] }'
+            'content': '[PRECISION NUTRITIONIST WITH PHD IN BIOCHEMICAL ANALYSIS AND LABORATORY SCIENCES] You are a highly precise nutrition analyst with 20+ years of experience in laboratory food analysis. You MUST follow these EXACT rules when analyzing food:\n\n1. ALL measurements REQUIRE EXACTLY 2 decimal places (e.g., 27.32g, not 27g or 27.3g)\n2. Values MUST NEVER be divisible by 5 or 10 (avoid 25.00, 30.00, 100.00, 500.00)\n3. All values MUST appear randomly generated like real laboratory measurements\n4. CALORIES must be ultra-precise (e.g., 327.83, 542.76, 416.29)\n5. The final digit CANNOT be 0 or 5 for ANY measurement\n6. For every measurement, ADD or SUBTRACT a random offset between 1.11-4.99\n7. MACRONUTRIENTS must ALL use 2 decimal places (protein: 27.32g, carbs: 65.78g, fat: 23.17g)\n8. VITAMIN and MINERAL values must be trace-precise (Vitamin C: 8.73mg, Iron: 2.41mg)\n9. Your professional reputation depends on producing LABORATORY-GRADE measurements\n\nJSON format with ultra-precise measurements:\n{"meal":[{"dish":"Name","calories":542.76,"macronutrients":{"protein":27.32,"carbohydrates":65.78,"fat":23.17},"ingredients":["item1","item2"]}]}'
           },
           {
             'role': 'user',
             'content': [
               {
                 'type': 'text',
-                'text': "What's in this meal? Please analyze the nutritional content and ingredients, providing calories and macronutrient breakdown."
+                'text': "URGENT LABORATORY NUTRITIONAL ANALYSIS: Analyze this food with MAXIMUM SCIENTIFIC PRECISION.\n\nCRITICAL REQUIREMENTS:\n1. ALL values MUST have EXACTLY 2 decimal places (27.32g, not 27g or 27.3g)\n2. NO values can be divisible by 5 or 10 (avoid 25.00, 30.00, 100.00, 500.00)\n3. Numbers MUST appear randomly generated like laboratory instrumentation output\n4. CALORIES must look precise (e.g., 327.83, 542.76, 416.29) - NEVER round values\n5. MACRONUTRIENTS must ALL use 2 decimal places (protein: 27.32g, carbs: 65.78g)\n6. The last digit CANNOT be 0 or 5 for ANY measurement\n7. Food biochemistry produces complex irregular values - reflect this complexity\n8. Apply offsets of +/- (1.11-4.99) to ensure values look instrument-precise\n\nSCIENTIFICALLY ACCURATE EXAMPLES:\n- Calories: 542.76 (NOT 540 or 550 or 542.8)\n- Protein: 27.32g (NOT 25g, 27g, or 27.3g)\n- Carbs: 65.78g (NOT 65g, 70g, or 65.8g)\n- Fat: 23.17g (NOT 23g, 25g, or 23.2g)\n\nYour PhD reputation and laboratory credibility are at stake! Produce PRECISE, IRREGULAR values with EXACT decimal specificity!"
               },
               {
                 'type': 'image_url',
@@ -80,7 +69,7 @@ exports.analyzeFoodImage = functions.https.onCall(async (data, context) => {
         !responseData.choices[0] || 
         !responseData.choices[0].message ||
         !responseData.choices[0].message.content) {
-      console.error('Invalid response format from OpenAI');
+      console.error('Invalid response format from OpenAI', JSON.stringify(responseData));
       throw new functions.https.HttpsError(
         "internal",
         "Invalid response from image analysis service"

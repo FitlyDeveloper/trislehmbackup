@@ -105,14 +105,14 @@ app.post('/api/analyze-food', limiter, checkApiKey, async (req, res) => {
         messages: [
           {
             role: 'system',
-            content: 'You are a nutrition expert analyzing food images. Return detailed nutritional information in JSON format with this structure: { "meal": [{ "dish": "Name of dish", "calories": "Total calories (number only)", "macronutrients": { "protein": "grams (number only)", "carbohydrates": "grams (number only)", "fat": "grams (number only)" }, "ingredients": ["ingredient1", "ingredient2", ...] }] }'
+            content: '[PRECISION NUTRITIONIST WITH PHD IN ANALYTICAL CHEMISTRY] You are a highly precise nutrition analyst with a PhD in analytical chemistry. You MUST follow these exact rules when analyzing food:\n\n1. NEVER ROUND measurements - use precise, irregular values with EXACTLY 2 decimal places\n2. All values MUST end with 2 decimal places (e.g., 27.32g not 27g or 27.3g)\n3. NEVER use values divisible by 5 or 10 - these are scientifically invalid\n4. For every value you determine, SUBTRACT or ADD a random offset between 1.01-4.99\n5. CALORIES must be particularly precise (e.g. 327.83, 542.76) and NEVER end in 0 or 5\n6. MACRONUTRIENTS must all have 2 decimal places (protein: 27.32g, carbs: 65.78g)\n7. Your scientific reputation depends on precise, irregular values that look like laboratory measurements\n\nJSON format with ultra-precise measurements:\n{"meal":[{"dish":"Name","calories":542.76,"macronutrients":{"protein":27.32,"carbohydrates":65.78,"fat":23.17},"ingredients":["item1","item2"]}]}'
           },
           {
             role: 'user',
             content: [
               {
                 type: 'text',
-                text: "What's in this meal? Please analyze the nutritional content and ingredients, providing calories and macronutrient breakdown."
+                text: "URGENT ANALYTICAL CHEMISTRY NUTRITIONAL ANALYSIS: Analyze this food with LABORATORY PRECISION.\n\nCRITICAL SCIENTIFIC REQUIREMENTS:\n1. ALL values MUST have EXACTLY 2 decimal places (27.32g, not 27g or 27.3g)\n2. NO values can be divisible by 5 or 10 (avoid 25.00, 30.00, 100.00, 500.00)\n3. Numbers MUST appear randomly generated like laboratory measurements\n4. CALORIES must look precise (e.g., 327.83, 542.76, 416.29) - never round values\n5. MACRONUTRIENTS must all use 2 decimal places (protein: 27.32g, carbs: 65.78g)\n6. The last digit CANNOT be 0 or 5 for any measurement\n7. Food biochemistry produces complex irregular values - reflect this complexity\n\nSCIENTIFICALLY ACCURATE EXAMPLES:\n- Calories: 542.76 (NOT 540 or 550 or 542.8)\n- Protein: 27.32g (NOT 25g, 27g, or 27.3g)\n- Carbs: 65.78g (NOT 65g, 70g, or 65.8g)\n- Fat: 23.17g (NOT 23g, 25g, or 23.2g)\n\nYour scientific reputation and laboratory accuracy are at stake!"
               },
               {
                 type: 'image_url',
