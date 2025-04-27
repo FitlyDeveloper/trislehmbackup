@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/next_intro_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/screens/signin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GenderScreen extends StatefulWidget {
   const GenderScreen({super.key});
@@ -15,6 +16,29 @@ class _GenderScreenState extends State<GenderScreen> {
   String? selectedGender;
 
   double get progress => currentStep / totalSteps;
+
+  // Save selected gender to SharedPreferences
+  Future<void> _saveGender() async {
+    if (selectedGender != null) {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+
+        // Save data and verify
+        await prefs.setString('user_gender', selectedGender!);
+
+        // Verify it was saved correctly
+        final savedGender = prefs.getString('user_gender');
+        print('Gender saved to SharedPreferences:');
+        print('Key: user_gender, Value: $savedGender');
+
+        // Print all keys for debugging
+        print('All SharedPreferences keys after saving:');
+        print(prefs.getKeys());
+      } catch (e) {
+        print('Error saving gender: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +160,7 @@ class _GenderScreenState extends State<GenderScreen> {
             ),
           ),
 
-          // Next button
+          // Continue button
           Positioned(
             left: 24,
             right: 24,
@@ -150,22 +174,23 @@ class _GenderScreenState extends State<GenderScreen> {
               ),
               child: TextButton(
                 onPressed: selectedGender != null
-                    ? () {
-                        Navigator.push(
-                          context,
+                    ? () async {
+                        // Save gender before navigation
+                        await _saveGender();
+                        Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const NextIntroScreen(),
                           ),
                         );
                       }
                     : null,
-                child: Text(
+                child: const Text(
                   'Continue',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
                     fontFamily: '.SF Pro Display',
-                    color: selectedGender != null ? Colors.white : Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ),
