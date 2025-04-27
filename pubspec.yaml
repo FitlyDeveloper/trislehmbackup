@@ -40,3 +40,4 @@ flutter:                    # Only ONE flutter: section should exist
   assets:
     - assets/images/
     - assets/fonts/
+    - images/

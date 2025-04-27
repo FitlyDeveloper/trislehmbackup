@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'dart:math' as math;
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:fitness_app/services/food_analyzer_api.dart';
+import '../services/food_analyzer_api.dart';
 
 class AIService {
   final FirebaseFunctions _functions = FirebaseFunctions.instance;
@@ -51,13 +51,14 @@ class AIService {
             '3. Use single asterisks for medium emphasis text (e.g., *Important:*, *Note:*, *Remember:*).\n\n'
             '4. Break info into short bullet points — each line should feel tight and useful.\n\n'
             '5. Avoid paragraphs or long explanations. Aim for a clean, modern premium app tone.\n\n'
-            '6. All numbers must be rounded and practical (e.g., "3-5x/week," "100g chicken = 165 cal").\n\n'
+            '6. All numbers must be rounded and practical (e.g., 3-5x/week, 100g chicken = 165 cal).\n\n'
             '7. Include actionable tips or structure when relevant (e.g., meals, routines, mindset).\n\n'
             '8. Never over-explain. No motivational fluff. Just smart, efficient advice.\n\n'
             '9. Keep formatting consistent across all answers (bullets, bold labels, calorie info etc).\n\n'
             '10. CRITICALLY IMPORTANT: Insert EXACTLY ONE empty line after EVERY heading.\n\n'
             '11. DO NOT use markdown syntax with # or ### symbols anywhere.\n\n'
-            '12. Example structure:\n\n'
+            '12. DO NOT use quotation marks around examples or anywhere else in your response.\n\n'
+            '13. Example structure:\n\n'
             '**Goal Plan:**\n\n'
             '- Calories: Target 300–500 kcal deficit/day\n'
             '- Protein: Prioritize *lean sources* (e.g., chicken, eggs)\n'

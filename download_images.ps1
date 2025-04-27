@@ -1,0 +1,1 @@
+@("like.png", "likefilled.png", "rulerscalebar.png", "nutrition.png", "picbutton.png", "steak.png", "qrcodescan.png", "AddPhoto.png", "Clipboard.png", "Notes.png") | ForEach-Object { Invoke-WebRequest -Uri "https://raw.githubusercontent.com/FitlyDeveloper/lehm30/main/assets/images/$_" -OutFile "assets/images/$_" }

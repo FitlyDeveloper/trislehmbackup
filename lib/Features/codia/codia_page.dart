@@ -870,14 +870,14 @@ class _CodiaPageState extends State<CodiaPage> {
       print("Error formatting time: $e");
     }
 
-    // Get values with fallbacks
+    // Get values with fallbacks ensuring correct types
     String name = foodCard['name'] ?? 'Unknown Meal';
 
-    // Handle numeric values with decimal precision
-    final String calories = _extractNumericValue(foodCard['calories']);
-    final String protein = _extractNumericValue(foodCard['protein']);
-    final String fat = _extractNumericValue(foodCard['fat']);
-    final String carbs = _extractNumericValue(foodCard['carbs']);
+    // Handle numeric values with proper parsing
+    int calories = _extractNumericValueAsInt(foodCard['calories']);
+    int protein = _extractNumericValueAsInt(foodCard['protein']);
+    int fat = _extractNumericValueAsInt(foodCard['fat']);
+    int carbs = _extractNumericValueAsInt(foodCard['carbs']);
 
     String? base64Image = foodCard['image'];
     List<dynamic> ingredients = foodCard['ingredients'] ?? [];
@@ -911,7 +911,7 @@ class _CodiaPageState extends State<CodiaPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FoodCardOpen(),
+              builder: (context) => const FoodCardOpen(),
             ),
           );
         },
@@ -935,7 +935,6 @@ class _CodiaPageState extends State<CodiaPage> {
                 borderRadius: BorderRadius.circular(12),
                 child: imageWidget,
               ),
-
               SizedBox(width: 12),
 
               // Food details
@@ -950,9 +949,7 @@ class _CodiaPageState extends State<CodiaPage> {
                         children: [
                           Flexible(
                             child: Text(
-                              name.length > 20
-                                  ? name.substring(0, 20) + '...'
-                                  : name,
+                              name,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 16,
@@ -981,7 +978,6 @@ class _CodiaPageState extends State<CodiaPage> {
                           ),
                         ],
                       ),
-
                       SizedBox(height: 7),
 
                       // Calories
@@ -1004,7 +1000,6 @@ class _CodiaPageState extends State<CodiaPage> {
                           ),
                         ],
                       ),
-
                       SizedBox(height: 7),
 
                       // Macros
@@ -1017,7 +1012,7 @@ class _CodiaPageState extends State<CodiaPage> {
                           ),
                           SizedBox(width: 7.7),
                           Text(
-                            '$protein g',
+                            '${protein}g',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -1033,7 +1028,7 @@ class _CodiaPageState extends State<CodiaPage> {
                           ),
                           SizedBox(width: 7.7),
                           Text(
-                            '$fat g',
+                            '${fat}g',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -1049,7 +1044,7 @@ class _CodiaPageState extends State<CodiaPage> {
                           ),
                           SizedBox(width: 7.7),
                           Text(
-                            '$carbs g',
+                            '${carbs}g',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -1685,8 +1680,7 @@ class _CodiaPageState extends State<CodiaPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          caloriesToShow.toStringAsFixed(
-                              0), // Display exact value without decimal points
+                          caloriesToShow.round().toString(),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
