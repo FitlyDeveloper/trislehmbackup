@@ -6,6 +6,7 @@ import 'Features/onboarding_screen.dart';
 import 'firebase_options.dart';
 import 'core/utils/device_size_adapter.dart';
 import 'dart:ui' as ui;
+import 'widgets/health_tracking_card.dart';
 
 // Custom binding to disable overflow errors
 class NoOverflowErrorsFlutterBinding extends WidgetsFlutterBinding {

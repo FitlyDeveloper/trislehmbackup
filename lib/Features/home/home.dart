@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/health_tracking_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -630,6 +631,20 @@ class HomeContent extends StatelessWidget {
                 ),
               ),
             ),
+
+            // After the other existing widgets, add the HealthTrackingCard
+            const SizedBox(height: 16),
+
+            // Health Tracking Card
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: HealthTrackingCard(
+                usePedometer:
+                    true, // Use pedometer as fallback if health integration fails
+              ),
+            ),
+
+            const SizedBox(height: 16),
 
             // Bottom spacing for navigation bar
             SizedBox(height: 80),

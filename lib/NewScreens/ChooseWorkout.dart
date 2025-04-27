@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
 import '../Features/codia/codia_page.dart';
+import 'LogRunning.dart';
+import 'LogDescribeExercise.dart';
+import 'WeightLifting.dart';
 
 class ChooseWorkout extends StatefulWidget {
   const ChooseWorkout({Key? key}) : super(key: key);
@@ -15,128 +19,159 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background4.jpg'),
-            fit: BoxFit.fill,
+      body: Stack(
+        children: [
+          // Background image
+          Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/background4.jpg'),
+                fit: BoxFit.fill,
+              ),
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
+          // Main content
+          SafeArea(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Header with title
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 8),
-                  child: Text(
-                    'Workout',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'SF Pro Display',
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-
-                // Divider line
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 29),
-                  child: Container(
-                    height: 0.7,
-                    color: Color(0xFFEEEEEE),
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: const EdgeInsets.symmetric(horizontal: 29)
+                      .copyWith(top: 16, bottom: 8.5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Log Workout',
+                      Text(
+                        'Workout',
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF303030),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'SF Pro Display',
+                          color: Colors.black,
+                          decoration: TextDecoration.none,
                         ),
                       ),
-
-                      // Slim gray divider line
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 29),
-                        height: 1,
-                        color: Color(0xFFBDBDBD),
-                      ),
-
-                      const SizedBox(height: 16),
-                      
-                      // Weight Lifting Option
-                      _buildWorkoutCard(
-                        'Weight Lifting',
-                        'Build strength with machines or free weights',
-                        'assets/images/dumbbell.png',
-                        () {},
-                      ),
-                      const SizedBox(height: 16),
-                      
-                      // Running Option
-                      _buildWorkoutCard(
-                        'Running',
-                        'Track your runs, jogs, sprints etc.',
-                        'assets/images/Shoe.png',
-                        () {},
-                      ),
-                      const SizedBox(height: 16),
-                      
-                      // More Option
-                      _buildWorkoutCard(
-                        'More',
-                        'Create custom exercises',
-                        'assets/images/add.png',
-                        () {},
-                      ),
-                      
-                      // Bottom padding
-                      const SizedBox(height: 24),
                     ],
                   ),
                 ),
+
+                // Slim gray divider line
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 29),
+                  height: 0.5,
+                  color: Color(0xFFBDBDBD),
+                ),
+
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 29,
+                      right: 29,
+                      bottom: 120, // Increased to prevent overflow
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Weight Lifting Option
+                        _buildWorkoutCard(
+                          'Weight Lifting',
+                          'Build strength with machines or free weights',
+                          'assets/images/dumbbell.png',
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const WeightLifting(),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                            height: 12), // Reduced spacing between cards
+
+                        // Running Option
+                        _buildWorkoutCard(
+                          'Running',
+                          'Track your runs, jogs, sprints etc.',
+                          'assets/images/Shoe.png',
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LogRunning(),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                            height: 12), // Reduced spacing between cards
+
+                        // More Option
+                        _buildWorkoutCard(
+                          'More',
+                          'Create custom exercises',
+                          'assets/images/add.png',
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LogDescribeExercise(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        height: 90,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 0),
-          child: Transform.translate(
-            offset: const Offset(0, -5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildNavItem('Home', 'assets/images/home.png', _selectedIndex == 0, 0),
-                _buildNavItem('Social', 'assets/images/socialicon.png', _selectedIndex == 1, 1),
-                _buildNavItem('Nutrition', 'assets/images/nutrition.png', _selectedIndex == 2, 2),
-                _buildNavItem('Workout', 'assets/images/dumbbell.png', _selectedIndex == 3, 3),
-                _buildNavItem('Profile', 'assets/images/profile.png', _selectedIndex == 4, 4),
-              ],
+
+          // Bottom navigation bar
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 90,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, -2),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: Transform.translate(
+                  offset: Offset(0, -5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildNavItem('Home', 'assets/images/home.png',
+                          _selectedIndex == 0, 0),
+                      _buildNavItem('Social', 'assets/images/socialicon.png',
+                          _selectedIndex == 1, 1),
+                      _buildNavItem('Nutrition', 'assets/images/nutrition.png',
+                          _selectedIndex == 2, 2),
+                      _buildNavItem('Workout', 'assets/images/dumbbell.png',
+                          _selectedIndex == 3, 3),
+                      _buildNavItem('Profile', 'assets/images/profile.png',
+                          _selectedIndex == 4, 4),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -148,7 +183,7 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
     VoidCallback onTap,
   ) {
     return Container(
-      height: 88,
+      height: 84,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -220,13 +255,19 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
     );
   }
 
-  Widget _buildNavItem(String label, String iconPath, bool isSelected, int index) {
+  Widget _buildNavItem(
+      String label, String iconPath, bool isSelected, int index) {
     return GestureDetector(
       onTap: () {
         if (index == 0) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => CodiaPage()),
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  CodiaPage(),
+              transitionDuration: Duration.zero,
+              reverseTransitionDuration: Duration.zero,
+            ),
           );
         }
         setState(() {
@@ -257,4 +298,4 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
       ),
     );
   }
-} 
+}
