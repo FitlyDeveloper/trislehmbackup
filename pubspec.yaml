@@ -28,6 +28,9 @@ dependencies:
   connectivity_plus: ^5.0.2
   connectivity_plus_web: ^1.2.5
   path_provider: ^2.1.2
+  health: ^12.1.0  # Updated to latest version for compatibility
+  pedometer: ^4.0.1  # Step counting functionality
+  flip_card: ^0.7.0  # For card flip animation between calories and steps
   # Both Firebase Functions and direct HTTP API calls are used
 
 dev_dependencies:

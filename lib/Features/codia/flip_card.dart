@@ -1,26 +1,28 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:flutter/material.dart';
 
+// Flip Card Widget with front and back sides
 class FlipCard extends StatefulWidget {
   final Widget frontSide;
   final Widget backSide;
-  final VoidCallback onFlip;
+  final Duration duration;
+  final VoidCallback? onFlip;
 
   const FlipCard({
     Key? key,
     required this.frontSide,
     required this.backSide,
-    required this.onFlip,
+    this.duration = const Duration(milliseconds: 500),
+    this.onFlip,
   }) : super(key: key);
 
   @override
-  _FlipCardState createState() => _FlipCardState();
+  State<FlipCard> createState() => _FlipCardState();
 }
 
 class _FlipCardState extends State<FlipCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _animation;
   bool _showFrontSide = true;
 
   @override
@@ -28,9 +30,8 @@ class _FlipCardState extends State<FlipCard>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: widget.duration,
     );
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
   }
 
   @override
@@ -39,32 +40,34 @@ class _FlipCardState extends State<FlipCard>
     super.dispose();
   }
 
-  void _flip() {
+  void toggleCard() {
     if (_showFrontSide) {
       _controller.forward();
     } else {
       _controller.reverse();
     }
     _showFrontSide = !_showFrontSide;
-    widget.onFlip();
+    if (widget.onFlip != null) {
+      widget.onFlip!();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _flip,
+      onTap: toggleCard,
       child: AnimatedBuilder(
-        animation: _animation,
+        animation: _controller,
         builder: (context, child) {
-          final angle = _animation.value * pi;
+          final angle = _controller.value * pi;
           final transform = Matrix4.identity()
-            ..setEntry(3, 2, 0.001)
+            ..setEntry(3, 2, 0.001) // Perspective
             ..rotateY(angle);
 
           return Transform(
             transform: transform,
             alignment: Alignment.center,
-            child: angle < pi / 2
+            child: _controller.value < 0.5
                 ? widget.frontSide
                 : Transform(
                     transform: Matrix4.identity()..rotateY(pi),
